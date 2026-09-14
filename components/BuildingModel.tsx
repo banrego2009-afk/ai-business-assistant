@@ -224,46 +224,6 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
     </group>
   );
 
-  // Visszafogott Villamossági Kábelcsatornák a Mennyezeten
-  const renderElectricalRouting = (f: number) => {
-    if (f === 0) return null; // A lobbiban nem látszik
-
-    const isEnergy = activeSystem === "Energieverteilung" || activeSystem === "Steckdosen und Stromkreise";
-    const isSmart = activeSystem === "Beleuchtung" || activeSystem === "Steuerung und Gebäudeautomation" || activeSystem === "Sicherheits- und Beschallungssysteme";
-    
-    const energyGlow = isEnergy ? "#0ea5e9" : "#1e293b"; 
-    const energyIntensity = isEnergy ? 2 : 0;
-    
-    const smartGlow = isSmart ? "#84cc16" : "#1e293b";
-    const smartIntensity = isSmart ? 2 : 0;
-
-    return (
-      <group position={[0, floorHeight - 0.15, 0]}>
-        {/* Fő áramgerinc (Energy) - Kék */}
-        <mesh position={[0, 0, 0]} castShadow>
-          <boxGeometry args={[0.2, 0.05, buildingDepth - 2]} />
-          <meshStandardMaterial color="#0ea5e9" emissive={energyGlow} emissiveIntensity={energyIntensity} />
-        </mesh>
-        {/* Fő áram leágazás asztalokhoz */}
-        <mesh position={[-2, 0, 0]} castShadow>
-          <boxGeometry args={[4, 0.05, 0.1]} />
-          <meshStandardMaterial color="#0ea5e9" emissive={energyGlow} emissiveIntensity={energyIntensity} />
-        </mesh>
-
-        {/* Fő adat/Smart gerinc (Smart) - Zöld */}
-        <mesh position={[0.3, 0, 0]} castShadow>
-          <boxGeometry args={[0.15, 0.05, buildingDepth - 2]} />
-          <meshStandardMaterial color="#84cc16" emissive={smartGlow} emissiveIntensity={smartIntensity} />
-        </mesh>
-        {/* Smart leágazás */}
-        <mesh position={[2, 0, 2]} castShadow>
-          <boxGeometry args={[3.5, 0.05, 0.1]} />
-          <meshStandardMaterial color="#84cc16" emissive={smartGlow} emissiveIntensity={smartIntensity} />
-        </mesh>
-      </group>
-    );
-  };
-
   return (
     <group ref={group} position={[0, -4, 0]}>
       
@@ -344,9 +304,6 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
           {f === 0 && renderLobby()}
           {f > 0 && f < floorsCount - 1 && renderStandardOffice(f % 2 === 0)}
           {f === floorsCount - 1 && renderExecutive()}
-          
-          {/* Villamos hálózat ráillesztése */}
-          {renderElectricalRouting(f)}
         </group>
       ))}
       
