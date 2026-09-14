@@ -50,13 +50,12 @@ function CameraController() {
 export default function Scene({ activeSystem }: { activeSystem: string | null }) {
   return (
     <div className="fixed inset-0 w-full h-full -z-10 bg-[#0B0E10]">
-      <Canvas shadows>
+      <Canvas shadows dpr={[1, 1.5]}>
         <CameraController />
-        <ambientLight intensity={1.5} />
-        <directionalLight position={[10, 20, 10]} intensity={2.0} castShadow shadow-mapSize={[1024, 1024]} />
-        <spotLight position={[-10, 10, -5]} intensity={2.0} color="#3b82f6" distance={50} />
+        <ambientLight intensity={2.5} />
+        <directionalLight position={[10, 20, 10]} intensity={3.5} castShadow shadow-mapSize={[1024, 1024]} />
+        <spotLight position={[-10, 10, -5]} intensity={3.0} color="#bae6fd" distance={50} />
         
-        {/* Szép technikai rács a padlón */}
         <Grid 
           position={[0, -0.5, 0]} 
           args={[50, 50]} 
