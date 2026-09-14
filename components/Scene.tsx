@@ -2,7 +2,6 @@
 
 import { Canvas } from "@react-three/fiber";
 import { PerspectiveCamera, Grid } from "@react-three/drei";
-import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import BuildingModel from "./BuildingModel";
 import { useRef } from "react";
 import * as THREE from "three";
@@ -50,12 +49,12 @@ function CameraController() {
 
 export default function Scene({ activeSystem }: { activeSystem: string | null }) {
   return (
-    <div className="fixed inset-0 w-full h-full -z-10 bg-[var(--color-graphite)]">
-      <Canvas shadows dpr={[1, 2]}>
+    <div className="fixed inset-0 w-full h-full -z-10 bg-[#0B0E10]">
+      <Canvas shadows dpr={[1, 1.5]} gl={{ powerPreference: "high-performance", antialias: false }}>
         <CameraController />
-        <ambientLight intensity={0.2} />
-        <directionalLight position={[10, 20, 10]} intensity={1.5} castShadow shadow-mapSize={[2048, 2048]} />
-        <spotLight position={[-10, 10, -5]} intensity={1} color="#D4F568" distance={50} />
+        <ambientLight intensity={1.5} />
+        <directionalLight position={[10, 20, 10]} intensity={2.0} castShadow shadow-mapSize={[1024, 1024]} />
+        <spotLight position={[-10, 10, -5]} intensity={2.0} color="#3b82f6" distance={50} />
         
         {/* Szép technikai rács a padlón */}
         <Grid 
@@ -63,20 +62,15 @@ export default function Scene({ activeSystem }: { activeSystem: string | null })
           args={[50, 50]} 
           cellSize={1} 
           cellThickness={0.5} 
-          cellColor="#8D989F" 
+          cellColor="#1f2937" 
           sectionSize={5} 
           sectionThickness={1} 
-          sectionColor="#D4F568" 
+          sectionColor="#3b82f6" 
           fadeDistance={30} 
           fadeStrength={1.5} 
         />
         
         <BuildingModel activeSystem={activeSystem} />
-        
-        <EffectComposer enableNormalPass={false}>
-          <Bloom luminanceThreshold={0.2} mipmapBlur intensity={1.5} />
-          <Vignette eskil={false} offset={0.1} darkness={1.1} />
-        </EffectComposer>
       </Canvas>
     </div>
   );
