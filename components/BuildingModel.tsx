@@ -32,27 +32,34 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
       }
     });
 
-    // 1. (0.0 - 1.5 mp): A külső üvegburok egyszerűen elhalványul
+    // 1. (0 - 1s): A külső üvegburok egyszerűen elhalványul
     facade.current.traverse((child: THREE.Object3D) => {
       if ((child as THREE.Mesh).isMesh && (child as THREE.Mesh).material) {
-        tl.to((child as THREE.Mesh).material, { opacity: 0, duration: 1.5 }, 0);
+        tl.to((child as THREE.Mesh).material, { opacity: 0, duration: 1 }, 0);
       } else if ((child as THREE.LineSegments).isLineSegments && (child as THREE.LineSegments).material) {
-        tl.to((child as THREE.LineSegments).material, { opacity: 0, duration: 1.5 }, 0);
+        tl.to((child as THREE.LineSegments).material, { opacity: 0, duration: 1 }, 0);
       }
     });
 
-    // 2. (1.5 - 3.0 mp): A szintek finoman szétnyílnak a mag mentén, hogy belássunk a szobákba.
+    // 2. (1s - 2.5s): 3D -> 2D Tervrajz (A szintek és a mag kilapulnak a talajra a felülnézeti kamerához)
     floorRefs.current.forEach((floor, index) => {
-      if (floor && index > 0) { 
-        tl.to(floor.position, { 
-          y: index * (floorHeight * 1.5), 
-          duration: 1.5, 
-          ease: "power2.inOut" 
-        }, 1.5); // KIZÁRÓLAG az animáció második felében (1.5 mp-nél) kezd el szétnyílni!
+      if (floor) {
+        tl.to(floor.scale, { y: 0.001, duration: 1.5 }, 1);
+        tl.to(floor.position, { y: 0.1 * index, duration: 1.5, ease: "power2.inOut" }, 1);
       }
     });
+    tl.to(group.current.getObjectByName("central-core")!.scale, { y: 0.001, duration: 1.5 }, 1);
 
-    // (Eltávolítottam a 3D -> 2D -> 3D kilapulást, mert ez okozta az "össze-vissza csúszkálást" fel-le görgetéskor)
+    // 3. (2.5s - 4s): Végső 3D Robbantott Ábra (A szintek újra felveszik 3D formájukat, és szétnyílnak)
+    floorRefs.current.forEach((floor, index) => {
+      if (floor) {
+        tl.to(floor.scale, { y: 1, duration: 1.5 }, 2.5);
+        if (index > 0) {
+          tl.to(floor.position, { y: index * (floorHeight * 1.5), duration: 1.5, ease: "power2.inOut" }, 2.5);
+        }
+      }
+    });
+    tl.to(group.current.getObjectByName("central-core")!.scale, { y: 1, duration: 1.5 }, 2.5);
 
   }, []);
 

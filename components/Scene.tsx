@@ -18,7 +18,7 @@ function CameraController() {
     if (!cameraRef.current) return;
     
     // Kezdeti kamera pozíció (Távol, stabilan)
-    cameraRef.current.position.set(0, 5, 30);
+    cameraRef.current.position.set(0, 2, 28);
     cameraRef.current.lookAt(0, 4, 0);
 
     const tl = gsap.timeline({
@@ -30,13 +30,17 @@ function CameraController() {
       }
     });
 
-    // Szekció 1: Kamera távolodik és gyönyörűen elkezd keringeni (Az épület még egyben van)
-    tl.to(cameraRef.current.position, { x: 25, y: 18, z: 20, ease: "power2.inOut", duration: 1.5 }, 0)
-      .to(cameraRef.current.rotation, { x: -0.5, y: 0.8, z: 0.2, ease: "power2.inOut", duration: 1.5 }, 0);
+    // Szekció 1: Épületmetszet feltárása (Kamera berepül, megfordul az épület körül)
+    tl.to(cameraRef.current.position, { x: 18, y: 20, z: 18, ease: "power2.inOut", duration: 1 }, 0)
+      .to(cameraRef.current.rotation, { x: -0.5, y: 0.8, z: 0.2, ease: "power2.inOut", duration: 1 }, 0);
 
-    // Szekció 2: Végső robbantott izometrikus nézet (A szintek ekkor nyílnak szét)
-    tl.to(cameraRef.current.position, { x: -25, y: 18, z: 18, ease: "power2.inOut", duration: 1.5 }, 1.5)
-      .to(cameraRef.current.rotation, { x: -0.6, y: -0.8, z: -0.4, ease: "power2.inOut", duration: 1.5 }, 1.5);
+    // Szekció 2: 3D -> 2D Tervrajz (Kamera teljesen felülnézetbe fordul)
+    tl.to(cameraRef.current.position, { x: 0, y: 40, z: 0, ease: "power3.inOut", duration: 1.5 }, 1)
+      .to(cameraRef.current.rotation, { x: -Math.PI / 2, y: 0, z: 0, ease: "power3.inOut", duration: 1.5 }, 1);
+      
+    // Szekció 3: Rendszerek részletezése (Visszatérés egy drámai izometrikus nézetbe)
+    tl.to(cameraRef.current.position, { x: -20, y: 15, z: 15, ease: "power2.inOut", duration: 1.5 }, 2.5)
+      .to(cameraRef.current.rotation, { x: -0.6, y: -0.7, z: -0.4, ease: "power2.inOut", duration: 1.5 }, 2.5);
 
   });
 
