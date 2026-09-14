@@ -18,9 +18,9 @@ function CameraController() {
   useGSAP(() => {
     if (!cameraRef.current) return;
     
-    // Kezdeti kamera pozíció
-    cameraRef.current.position.set(15, 10, 15);
-    cameraRef.current.lookAt(0, 2, 0);
+    // Kezdeti kamera pozíció (Lentről felfelé néz a masszív épületre)
+    cameraRef.current.position.set(0, 1, 15);
+    cameraRef.current.lookAt(0, 4, 0);
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -31,9 +31,9 @@ function CameraController() {
       }
     });
 
-    // Szekció 2: Épületmetszet feltárása (Kamera lejjebb és közelebb megy)
-    tl.to(cameraRef.current.position, { x: 8, y: 5, z: 12, ease: "power2.inOut", duration: 1 }, 0)
-      .to(cameraRef.current.rotation, { x: -0.3, y: 0.5, z: 0.1, ease: "power2.inOut", duration: 1 }, 0);
+    // Szekció 2: Épületmetszet feltárása (Kamera berepül és felemelkedik)
+    tl.to(cameraRef.current.position, { x: 8, y: 6, z: 10, ease: "power2.inOut", duration: 1 }, 0)
+      .to(cameraRef.current.rotation, { x: -0.2, y: 0.6, z: 0.1, ease: "power2.inOut", duration: 1 }, 0);
 
     // Szekció 3: 3D -> 2D Tervrajz (Kamera felülnézetbe fordul, távolodik)
     tl.to(cameraRef.current.position, { x: 0, y: 25, z: 0, ease: "power3.inOut", duration: 1.5 }, 1)
@@ -73,7 +73,7 @@ export default function Scene({ activeSystem }: { activeSystem: string | null })
         
         <BuildingModel activeSystem={activeSystem} />
         
-        <EffectComposer disableNormalPass>
+        <EffectComposer enableNormalPass={false}>
           <Bloom luminanceThreshold={0.2} mipmapBlur intensity={1.5} />
           <Vignette eskil={false} offset={0.1} darkness={1.1} />
         </EffectComposer>
