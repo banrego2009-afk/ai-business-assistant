@@ -81,21 +81,21 @@ export default function Home() {
         
         {/* 1. KREATÍV KÖZPONTI HERO (Beleolvad a 3D-be) */}
         <section className="h-[120vh] flex flex-col items-center justify-center px-6 pointer-events-none">
-          <div ref={heroTextRef} className="flex flex-col items-center text-center z-20 w-full max-w-5xl bg-black/40 backdrop-blur-md border border-white/10 p-10 md:p-16 rounded-[3rem] shadow-2xl">
-            <div className="inline-block border border-[var(--color-lime)] text-[var(--color-lime)] px-4 py-1.5 rounded-full text-xs font-mono mb-8 uppercase tracking-widest animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <div ref={heroTextRef} className="flex flex-col items-center text-center z-20 w-full max-w-5xl">
+            <div className="inline-block border border-[var(--color-lime)] text-[var(--color-lime)] px-4 py-1.5 rounded-full text-xs font-mono mb-8 uppercase tracking-widest animate-in fade-in slide-in-from-bottom-4 duration-1000 shadow-[0_4px_16px_rgba(0,0,0,0.8)] bg-black/20">
               Externe Elektroplanung
             </div>
             
-            <h1 className="text-5xl md:text-8xl lg:text-[7rem] font-bold leading-[1.1] mb-8 tracking-tight text-white drop-shadow-lg animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+            <h1 className="text-5xl md:text-8xl lg:text-[7rem] font-bold leading-[1.1] mb-8 tracking-tight text-white drop-shadow-[0_8px_16px_rgba(0,0,0,0.9)] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
               DAS SYSTEM HINTER<br/>DEM GEBÄUDE.
             </h1>
             
-            <p className="text-lg md:text-2xl text-[var(--color-offwhite)] mb-12 max-w-2xl leading-relaxed drop-shadow-md animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
+            <p className="text-lg md:text-2xl text-[var(--color-offwhite)] mb-12 max-w-2xl leading-relaxed drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
               Elektroplanung, die Ihr Projekt voranbringt. Eigenständige Projektierung für Unternehmen in der Schweiz und Österreich.
             </p>
             
             {/* Scroll Indicator */}
-            <div className="flex flex-col items-center gap-4 text-white/70 animate-in fade-in duration-1000 delay-700">
+            <div className="flex flex-col items-center gap-4 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] animate-in fade-in duration-1000 delay-700">
               <span className="text-xs font-mono tracking-widest uppercase">Projekt erkunden</span>
               <div className="w-px h-12 bg-gradient-to-b from-[var(--color-lime)] to-transparent animate-pulse"></div>
             </div>
@@ -104,11 +104,11 @@ export default function Home() {
 
         {/* 2. Épületmetszet Feltárása */}
         <section className="min-h-[150vh] flex items-center px-6 md:px-20 pointer-events-none">
-          <div className="max-w-2xl bg-black/50 backdrop-blur-md border border-white/10 p-10 rounded-3xl shadow-2xl">
-            <h2 className="reveal-heading text-5xl md:text-6xl font-bold mb-6 text-white drop-shadow-2xl">
+          <div className="max-w-2xl">
+            <h2 className="reveal-heading text-5xl md:text-6xl font-bold mb-6 text-white drop-shadow-[0_8px_16px_rgba(0,0,0,0.9)]">
               Präzision im Detail.
             </h2>
-            <p className="reveal-text text-2xl text-[var(--color-offwhite)] leading-relaxed drop-shadow-lg">
+            <p className="reveal-text text-2xl text-[var(--color-offwhite)] leading-relaxed drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)]">
               Die Architektur ist die Hülle, die Gebäudetechnik ist das Nervensystem, das sie zum Leben erweckt. Wir planen technische Systeme als Ganzes.
             </p>
           </div>
@@ -116,11 +116,11 @@ export default function Home() {
 
         {/* 3. 3D -> 2D Tervrajz */}
         <section className="min-h-[150vh] flex items-center px-6 md:px-20 pointer-events-none justify-end">
-          <div className="max-w-2xl bg-[#050608]/70 backdrop-blur-lg border border-[var(--color-lime)]/30 p-10 rounded-3xl shadow-2xl text-right">
-            <h2 className="reveal-heading text-5xl md:text-6xl font-bold mb-6 text-[var(--color-lime)] drop-shadow-2xl">
+          <div className="max-w-2xl text-right">
+            <h2 className="reveal-heading text-5xl md:text-6xl font-bold mb-6 text-white drop-shadow-[0_8px_16px_rgba(0,0,0,0.9)]">
               Räumlich gedacht.<br/>Flach gezeichnet.
             </h2>
-            <p className="reveal-text text-2xl text-white leading-relaxed drop-shadow-lg ml-auto max-w-xl">
+            <p className="reveal-text text-2xl text-white leading-relaxed drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)] ml-auto max-w-xl">
               Vom räumlichen Zusammenhang bis ins Detail. Präzise 2D-Pläne und 3D-Modelle in AutoCAD für eine reibungslose Integration.
             </p>
           </div>
