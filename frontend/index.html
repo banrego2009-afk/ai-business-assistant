@@ -63,6 +63,12 @@
                 <button onclick="switchTab('tasks')" id="nav-tasks" class="nav-btn w-full flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
                     <i class="fas fa-check-square w-5 text-slate-400"></i> Feladatok & CRM
                 </button>
+                <button onclick="switchTab('appointments')" id="nav-appointments" class="nav-btn w-full flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
+                    <i class="fas fa-calendar-alt w-5 text-slate-400"></i> Időpontok
+                </button>
+                <button onclick="switchTab('notes')" id="nav-notes" class="nav-btn w-full flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
+                    <i class="fas fa-sticky-note w-5 text-slate-400"></i> Jegyzetek
+                </button>
                 <button onclick="switchTab('emails')" id="nav-emails" class="nav-btn w-full flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
                     <i class="fas fa-envelope-open-text w-5 text-slate-400"></i> E-mailek
                 </button>
@@ -172,7 +178,71 @@
                 </div>
             </div>
 
-            <!-- 3. Emails View -->
+            <!-- 3. Appointments View -->
+            <div id="view-appointments" class="tab-content h-full flex-col max-w-5xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-full">
+                    <!-- Új Időpont -->
+                    <div class="md:col-span-1 flex flex-col gap-4">
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                            <h3 class="text-sm font-bold text-slate-800 mb-4 uppercase tracking-wide">Új Időpont (Ügyfél)</h3>
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-500 mb-1">Ügyfél neve</label>
+                                    <input type="text" id="new-app-client" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all" placeholder="Pl: Kovács János">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-500 mb-1">Dátum és Idő</label>
+                                    <input type="datetime-local" id="new-app-date" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-500 mb-1">Szolgáltatás (Pl. Autómosás)</label>
+                                    <input type="text" id="new-app-service" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all" placeholder="Pl: Prémium autómosás">
+                                </div>
+                                <button onclick="addAppointment()" class="w-full bg-slate-900 text-white rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-slate-800 transition-colors mt-2 shadow-sm">
+                                    <i class="fas fa-calendar-plus mr-1"></i> Időpont Mentése
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Időpontok listája -->
+                    <div class="md:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 p-0 flex flex-col overflow-hidden">
+                        <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                            <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide">Közelgő Időpontok</h3>
+                            <button onclick="loadAppointments()" class="text-slate-400 hover:text-indigo-600 transition-colors" title="Frissítés"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <div class="flex-1 overflow-y-auto p-4">
+                            <ul id="appointment-list" class="space-y-3">
+                                <!-- Rendered here -->
+                                <div class="text-center py-10 text-slate-400 text-sm">Betöltés...</div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Notes View -->
+            <div id="view-notes" class="tab-content h-full flex-col max-w-5xl mx-auto">
+                <div class="flex gap-4 mb-4">
+                    <input type="text" id="new-note-title" class="flex-1 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all shadow-sm" placeholder="Új jegyzet címe...">
+                    <button onclick="addNote()" class="bg-indigo-600 text-white rounded-xl px-6 py-3 text-sm font-medium hover:bg-indigo-700 transition-colors shadow-sm">
+                        <i class="fas fa-plus mr-1"></i> Létrehozás
+                    </button>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-0 flex flex-col overflow-hidden flex-1">
+                    <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 shrink-0">
+                        <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide">Jegyzetek</h3>
+                        <button onclick="loadNotes()" class="text-slate-400 hover:text-indigo-600 transition-colors" title="Frissítés"><i class="fas fa-sync-alt"></i></button>
+                    </div>
+                    <div class="flex-1 overflow-y-auto p-6 bg-slate-50">
+                        <div id="notes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Rendered here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Emails View -->
             <div id="view-emails" class="tab-content h-full flex-col max-w-4xl mx-auto">
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-0 flex flex-col h-full overflow-hidden">
                     <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">

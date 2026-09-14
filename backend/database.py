@@ -31,6 +31,27 @@ def init_db():
     )
     ''')
     
+    # Appointments table (Időpontok)
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS appointments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        client_name TEXT NOT NULL,
+        date_time TEXT NOT NULL,
+        service TEXT,
+        notes TEXT
+    )
+    ''')
+    
+    # Notes table (Jegyzetek)
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS notes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        content TEXT,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+    ''')
+    
     conn.commit()
     conn.close()
 

@@ -39,9 +39,76 @@ class TaskRequest(BaseModel):
 class CommandRequest(BaseModel):
     command: str
 
+class AppointmentRequest(BaseModel):
+    client_name: str
+    date_time: str
+    service: str = ""
+    notes: str = ""
+
+class NoteRequest(BaseModel):
+    title: str
+    content: str = ""
+
 @app.on_event("startup")
 def startup_event():
     init_db()
+
+# --- Notes Endpoints ---
+@app.get("/api/notes")
+async def get_notes():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM notes ORDER BY updated_at DESC")
+    notes = [dict(row) for row in cursor.fetchall()]
+    conn.close()
+    return {"notes": notes}
+
+@app.post("/api/notes")
+async def create_note(note: NoteRequest):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO notes (title, content) VALUES (?, ?)", (note.title, note.content))
+    conn.commit()
+    conn.close()
+    return {"status": "success"}
+
+@app.delete("/api/notes/{note_id}")
+async def delete_note(note_id: int):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM notes WHERE id = ?", (note_id,))
+    conn.commit()
+    conn.close()
+    return {"status": "deleted"}
+
+# --- Appointments Endpoints ---
+@app.get("/api/appointments")
+async def get_appointments():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM appointments ORDER BY date_time ASC")
+    apps = [dict(row) for row in cursor.fetchall()]
+    conn.close()
+    return {"appointments": apps}
+
+@app.post("/api/appointments")
+async def create_appointment(app_req: AppointmentRequest):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO appointments (client_name, date_time, service, notes) VALUES (?, ?, ?, ?)", 
+                   (app_req.client_name, app_req.date_time, app_req.service, app_req.notes))
+    conn.commit()
+    conn.close()
+    return {"status": "success"}
+
+@app.delete("/api/appointments/{app_id}")
+async def delete_appointment(app_id: int):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM appointments WHERE id = ?", (app_id,))
+    conn.commit()
+    conn.close()
+    return {"status": "deleted"}
 
 @app.post("/api/chat")
 async def chat(req: PromptRequest):

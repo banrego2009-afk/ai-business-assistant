@@ -60,6 +60,8 @@ function switchTab(tabId) {
     if(tabId === 'terminal') document.getElementById('cmd-input').focus();
     if(tabId === 'chat') document.getElementById('prompt-input').focus();
     if(tabId === 'tasks') loadTasks();
+    if(tabId === 'appointments') loadAppointments();
+    if(tabId === 'notes') loadNotes();
 }
 
 // --- Chat & AI ---
@@ -223,6 +225,141 @@ async function deleteTask(id) {
     try {
         await fetch(`${API_BASE}/tasks/${id}`, { method: "DELETE" });
         loadTasks();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+// --- Appointments CRUD ---
+async function loadAppointments() {
+    try {
+        const response = await fetch(`${API_BASE}/appointments`);
+        const data = await response.json();
+        const list = document.getElementById("appointment-list");
+        
+        if (data.appointments.length === 0) {
+            list.innerHTML = `<div class="text-center py-10 text-slate-400 text-sm"><i class="fas fa-calendar-times text-4xl mb-3 opacity-20 block"></i>Még nincsenek időpontok.</div>`;
+            return;
+        }
+        
+        list.innerHTML = "";
+        data.appointments.forEach(app => {
+            const dateObj = new Date(app.date_time);
+            const dateStr = dateObj.toLocaleDateString('hu-HU') + ' ' + dateObj.toLocaleTimeString('hu-HU', {hour: '2-digit', minute:'2-digit'});
+            
+            const li = document.createElement("li");
+            li.className = `group flex items-center justify-between p-4 rounded-xl border bg-white border-slate-200 shadow-sm transition-all hover:border-indigo-300 border-l-4 border-l-indigo-500`;
+            
+            li.innerHTML = `
+                <div class="flex flex-col flex-1">
+                    <span class="text-sm font-bold text-slate-800">${escapeHTML(app.client_name)}</span>
+                    <div class="flex gap-3 text-xs mt-1 font-medium">
+                        <span class="text-indigo-600"><i class="fas fa-clock mr-1"></i>${dateStr}</span>
+                        ${app.service ? `<span class="text-slate-500"><i class="fas fa-wrench mr-1"></i>${escapeHTML(app.service)}</span>` : ''}
+                    </div>
+                </div>
+                <button onclick="deleteAppointment(${app.id})" class="opacity-0 group-hover:opacity-100 text-slate-300 hover:text-red-500 transition-all p-2 rounded-lg hover:bg-red-50 ml-2">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            `;
+            list.appendChild(li);
+        });
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function addAppointment() {
+    const client = document.getElementById("new-app-client").value.trim();
+    const date = document.getElementById("new-app-date").value;
+    const service = document.getElementById("new-app-service").value.trim();
+    if (!client || !date) { alert("Név és dátum megadása kötelező!"); return; }
+
+    try {
+        await fetch(`${API_BASE}/appointments`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ client_name: client, date_time: date, service: service, notes: "" })
+        });
+        document.getElementById("new-app-client").value = "";
+        document.getElementById("new-app-date").value = "";
+        document.getElementById("new-app-service").value = "";
+        loadAppointments();
+    } catch (e) {
+        alert("Hiba az időpont mentésekor");
+    }
+}
+
+async function deleteAppointment(id) {
+    if (!confirm("Biztosan törlöd ezt az időpontot?")) return;
+    try {
+        await fetch(`${API_BASE}/appointments/${id}`, { method: "DELETE" });
+        loadAppointments();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+// --- Notes CRUD ---
+async function loadNotes() {
+    try {
+        const response = await fetch(`${API_BASE}/notes`);
+        const data = await response.json();
+        const grid = document.getElementById("notes-grid");
+        
+        if (data.notes.length === 0) {
+            grid.innerHTML = `<div class="col-span-full text-center py-10 text-slate-400 text-sm"><i class="fas fa-sticky-note text-4xl mb-3 opacity-20 block"></i>Még nincsenek jegyzetek.</div>`;
+            return;
+        }
+        
+        grid.innerHTML = "";
+        data.notes.forEach(note => {
+            const card = document.createElement("div");
+            card.className = "bg-white p-4 rounded-2xl shadow-sm border border-yellow-200 bg-yellow-50/30 flex flex-col group relative";
+            card.innerHTML = `
+                <div class="flex justify-between items-start mb-2">
+                    <h4 class="font-bold text-slate-800 text-sm w-full outline-none" contenteditable="true" onblur="updateNoteContext(this)">${escapeHTML(note.title)}</h4>
+                    <button onclick="deleteNote(${note.id})" class="opacity-0 group-hover:opacity-100 text-slate-300 hover:text-red-500 transition-colors absolute top-3 right-3">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="text-xs text-slate-600 flex-1 outline-none whitespace-pre-wrap" contenteditable="true" onblur="updateNoteContext(this)">${escapeHTML(note.content || "Írj ide valamit...")}</div>
+            `;
+            grid.appendChild(card);
+        });
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+function updateNoteContext(el) {
+    // A valós rendszerben itt egy PUT hívás történne a módosított szöveggel
+    console.log("Note edited locally");
+}
+
+async function addNote() {
+    const titleEl = document.getElementById("new-note-title");
+    const title = titleEl.value.trim();
+    if (!title) return;
+
+    try {
+        await fetch(`${API_BASE}/notes`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title: title, content: "" })
+        });
+        titleEl.value = "";
+        loadNotes();
+    } catch (e) {
+        alert("Hiba a jegyzet létrehozásakor");
+    }
+}
+
+async function deleteNote(id) {
+    if (!confirm("Biztosan törlöd ezt a jegyzetet?")) return;
+    try {
+        await fetch(`${API_BASE}/notes/${id}`, { method: "DELETE" });
+        loadNotes();
     } catch (e) {
         console.error(e);
     }
