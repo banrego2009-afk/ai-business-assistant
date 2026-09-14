@@ -75,38 +75,73 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
 
   }, []);
 
-  // --- VILÁGOSABB, LÁTVÁNYOS ANYAGOK ---
-  // Hogy a sötét háttéren gyönyörűen virítson az épület
-  const lightWall = new THREE.MeshStandardMaterial({ color: "#cbd5e1", roughness: 0.8, metalness: 0.1 }); // Világosszürke falak
-  const floorSlab = new THREE.MeshStandardMaterial({ color: "#94a3b8", roughness: 0.9 }); // Kicsit sötétebb szürke padló
-  const coreMat = new THREE.MeshStandardMaterial({ color: "#64748b", roughness: 1.0 }); // Még egy árnyalattal sötétebb beton mag
-  const glassWall = new THREE.MeshStandardMaterial({ color: "#7dd3fc", transparent: true, opacity: 0.3, roughness: 0.1, metalness: 0.9 }); // Világoskék üveg
-  const deskMat = new THREE.MeshStandardMaterial({ color: "#334155", roughness: 0.6 }); // Sötét pala asztalok (hogy kontrasztos legyen)
-  const facadeMat = new THREE.MeshStandardMaterial({ color: "#e0f2fe", transparent: true, opacity: 0.4, roughness: 0.1, metalness: 0.8, depthWrite: false });
+  // --- PRÉMIUM ÉPÍTÉSZETI ANYAGOK ---
+  const lightWall = new THREE.MeshStandardMaterial({ color: "#f8fafc", roughness: 0.1, metalness: 0.1 }); // Tiszta fehér falak (sokkal profibb)
+  const floorSlab = new THREE.MeshStandardMaterial({ color: "#cbd5e1", roughness: 0.8 }); // Világos betonpadló
+  const coreMat = new THREE.MeshStandardMaterial({ color: "#94a3b8", roughness: 1.0 }); // Kontrasztosabb mag
+  const glassWall = new THREE.MeshStandardMaterial({ color: "#7dd3fc", transparent: true, opacity: 0.25, roughness: 0.05, metalness: 0.9 }); // Igazi üveg hatás
+  const deskMat = new THREE.MeshStandardMaterial({ color: "#334155", roughness: 0.5 }); // Fa/Sötét bútor
+  const monitorMat = new THREE.MeshStandardMaterial({ color: "#0f172a", roughness: 0.2, metalness: 0.8 }); // Monitorok hátulja
+  const screenMat = new THREE.MeshStandardMaterial({ color: "#bae6fd", emissive: "#0284c7", emissiveIntensity: 0.5 }); // Bekapcsolt képernyők
+  const facadeMat = new THREE.MeshStandardMaterial({ color: "#e0f2fe", transparent: true, opacity: 0.35, roughness: 0.1, metalness: 0.8, depthWrite: false });
+
+  // Egy asztal komplett összeállítása (Asztallap, lábak, monitor)
+  const renderDesk = (x: number, z: number, rotation: number = 0, width: number = 1.4) => (
+    <group position={[x, 0, z]} rotation={[0, rotation, 0]}>
+      {/* Asztallap */}
+      <mesh position={[0, 0.75, 0]} castShadow receiveShadow material={deskMat}>
+        <boxGeometry args={[width, 0.05, 0.7]} />
+      </mesh>
+      {/* Asztallábak */}
+      <mesh position={[-width/2 + 0.1, 0.375, 0]} castShadow receiveShadow material={deskMat}>
+        <boxGeometry args={[0.05, 0.75, 0.6]} />
+      </mesh>
+      <mesh position={[width/2 - 0.1, 0.375, 0]} castShadow receiveShadow material={deskMat}>
+        <boxGeometry args={[0.05, 0.75, 0.6]} />
+      </mesh>
+      {/* Monitor (Hogy profi irodának nézzen ki) */}
+      <group position={[0, 0.8, -0.15]}>
+        <mesh position={[0, 0.2, 0]} castShadow receiveShadow material={monitorMat}>
+          <boxGeometry args={[0.6, 0.35, 0.05]} />
+        </mesh>
+        <mesh position={[0, 0.2, 0.026]} material={screenMat}>
+          <planeGeometry args={[0.55, 0.3]} />
+        </mesh>
+        <mesh position={[0, 0.05, 0]} castShadow receiveShadow material={monitorMat}>
+          <cylinderGeometry args={[0.02, 0.05, 0.1]} />
+        </mesh>
+      </group>
+    </group>
+  );
 
   // Földszint (Lobby)
   const renderLobby = () => (
     <group>
-      <mesh position={[0, 0.5, 2]} castShadow receiveShadow material={deskMat}>
-        <boxGeometry args={[4, 1, 0.8]} />
+      {/* Recepciós pult (Hosszú, elegáns) */}
+      <mesh position={[0, 0.5, 1]} castShadow receiveShadow material={deskMat}>
+        <boxGeometry args={[5, 1, 0.8]} />
       </mesh>
-      <mesh position={[0, 1.1, 2.4]} castShadow receiveShadow material={lightWall}>
-        <boxGeometry args={[4.2, 0.2, 0.4]} />
+      <mesh position={[0, 1.1, 1.4]} castShadow receiveShadow material={lightWall}>
+        <boxGeometry args={[5.2, 0.2, 0.4]} />
       </mesh>
-      <mesh position={[-4, 0.3, 3]} castShadow receiveShadow material={deskMat}>
-        <boxGeometry args={[2, 0.6, 1]} />
+      
+      {/* Növény/Dekor a sarokban */}
+      <mesh position={[5, 0.5, 3]} castShadow receiveShadow material={monitorMat}>
+        <cylinderGeometry args={[0.3, 0.4, 1]} />
       </mesh>
-      <mesh position={[-5, 0.3, 1.5]} castShadow receiveShadow material={deskMat}>
-        <boxGeometry args={[1, 0.6, 2]} />
+      <mesh position={[-5, 0.5, 3]} castShadow receiveShadow material={monitorMat}>
+        <cylinderGeometry args={[0.3, 0.4, 1]} />
       </mesh>
-      <mesh position={[-1.5, 0.6, -0.5]} castShadow receiveShadow material={lightWall}>
-        <boxGeometry args={[0.1, 1.2, 1]} />
+
+      {/* Beléptető kapuk */}
+      <mesh position={[-1.5, 0.5, -0.5]} castShadow receiveShadow material={lightWall}>
+        <boxGeometry args={[0.1, 1, 0.8]} />
       </mesh>
-      <mesh position={[0, 0.6, -0.5]} castShadow receiveShadow material={lightWall}>
-        <boxGeometry args={[0.1, 1.2, 1]} />
+      <mesh position={[0, 0.5, -0.5]} castShadow receiveShadow material={lightWall}>
+        <boxGeometry args={[0.1, 1, 0.8]} />
       </mesh>
-      <mesh position={[1.5, 0.6, -0.5]} castShadow receiveShadow material={lightWall}>
-        <boxGeometry args={[0.1, 1.2, 1]} />
+      <mesh position={[1.5, 0.5, -0.5]} castShadow receiveShadow material={lightWall}>
+        <boxGeometry args={[0.1, 1, 0.8]} />
       </mesh>
     </group>
   );
@@ -114,51 +149,47 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
   // Általános Irodaszint
   const renderStandardOffice = (isVariant: boolean) => (
     <group>
+      {/* Folyosó üvegfal */}
       <mesh position={[-1.5, floorHeight/2, -0.5]} castShadow receiveShadow material={glassWall}>
         <boxGeometry args={[11, floorHeight, 0.1]} />
       </mesh>
       <mesh position={[0, floorHeight/2, 1.5]} castShadow receiveShadow material={lightWall}>
         <boxGeometry args={[14, floorHeight, 0.1]} />
       </mesh>
+
+      {/* Tárgyaló üvegfront elöl */}
+      <mesh position={[3, floorHeight/2, 4.95]} castShadow receiveShadow material={glassWall}>
+        <boxGeometry args={[8, floorHeight, 0.1]} />
+      </mesh>
+
+      {/* Válaszfalak */}
       <mesh position={[-2, floorHeight/2, 3.25]} castShadow receiveShadow material={lightWall}>
         <boxGeometry args={[0.1, floorHeight, 3.5]} />
       </mesh>
       <mesh position={[-5, floorHeight/2, 3.25]} castShadow receiveShadow material={lightWall}>
         <boxGeometry args={[0.1, floorHeight, 3.5]} />
       </mesh>
-      <mesh position={[3, floorHeight/2, 3.25]} castShadow receiveShadow material={lightWall}>
+      <mesh position={[2, floorHeight/2, 3.25]} castShadow receiveShadow material={lightWall}>
         <boxGeometry args={[0.1, floorHeight, 3.5]} />
       </mesh>
-      <group position={[-3.5, 0, 3]}>
-        <mesh position={[0, 0.75, 0]} castShadow receiveShadow material={deskMat}>
-          <boxGeometry args={[1.4, 0.05, 0.7]} />
-        </mesh>
-        <mesh position={[-0.6, 0.375, 0]} castShadow receiveShadow material={deskMat}>
-          <boxGeometry args={[0.05, 0.75, 0.6]} />
-        </mesh>
-      </group>
-      <group position={[-6, 0, 4]}>
-        <mesh position={[0, 0.75, 0]} castShadow receiveShadow material={deskMat}>
-          <boxGeometry args={[1.4, 0.05, 0.7]} />
-        </mesh>
-      </group>
+
+      {/* Bútorozás (Részletes asztalok monitorokkal) */}
+      {renderDesk(-3.5, 3, 0, 1.4)}
+      {renderDesk(-6, 4, Math.PI / 2, 1.4)}
+
+      {/* Változatos open office */}
       {isVariant ? (
-        <group position={[5, 0, 3]}>
-           <mesh position={[0, 0.75, 0]} castShadow receiveShadow material={deskMat}>
-            <boxGeometry args={[2, 0.05, 1.5]} />
-          </mesh>
-          <mesh position={[0, 1, 0]} castShadow receiveShadow material={lightWall}>
-            <boxGeometry args={[1.8, 0.4, 0.05]} />
-          </mesh>
+        <group>
+          {renderDesk(4, 2.5, 0, 1.6)}
+          {renderDesk(4, 3.5, Math.PI, 1.6)}
+          {renderDesk(6, 2.5, 0, 1.6)}
+          {renderDesk(6, 3.5, Math.PI, 1.6)}
         </group>
       ) : (
-        <group position={[5, 0, 3]}>
-           <mesh position={[0, 0.75, 0]} castShadow receiveShadow material={deskMat}>
-            <boxGeometry args={[1.5, 0.05, 1.5]} />
-          </mesh>
-           <mesh position={[0, 0.75, 2]} castShadow receiveShadow material={deskMat}>
-            <boxGeometry args={[1.5, 0.05, 1.5]} />
-          </mesh>
+        <group>
+          {renderDesk(3.5, 3, 0, 1.4)}
+          {renderDesk(6.5, 3, 0, 1.4)}
+          {renderDesk(5, 4, Math.PI, 1.4)}
         </group>
       )}
     </group>
@@ -170,20 +201,35 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
       <mesh position={[-2, floorHeight/2, 2]} castShadow receiveShadow material={glassWall}>
         <boxGeometry args={[0.1, floorHeight, 6]} />
       </mesh>
+      
+      {/* Prémium hosszú tárgyalóasztal */}
       <group position={[-4.5, 0, 2]}>
         <mesh position={[0, 0.75, 0]} castShadow receiveShadow material={deskMat}>
           <boxGeometry args={[4, 0.05, 1.5]} />
         </mesh>
         <mesh position={[-1.5, 0.375, 0]} castShadow receiveShadow material={deskMat}>
-          <boxGeometry args={[0.5, 0.75, 0.5]} />
+          <cylinderGeometry args={[0.1, 0.1, 0.75]} />
         </mesh>
         <mesh position={[1.5, 0.375, 0]} castShadow receiveShadow material={deskMat}>
-          <boxGeometry args={[0.5, 0.75, 0.5]} />
+          <cylinderGeometry args={[0.1, 0.1, 0.75]} />
         </mesh>
+        {/* Laptopok az asztalon */}
+        {[-1, 0, 1].map((x, i) => (
+          <group key={`lap-${i}`} position={[x, 0.78, 0.3]} rotation={[0, 0, 0]}>
+            <mesh position={[0, 0.05, -0.1]} rotation={[-0.2, 0, 0]} material={monitorMat}>
+              <boxGeometry args={[0.3, 0.2, 0.02]} />
+            </mesh>
+            <mesh position={[0, 0.05, -0.09]} rotation={[-0.2, 0, 0]} material={screenMat}>
+              <planeGeometry args={[0.28, 0.18]} />
+            </mesh>
+          </group>
+        ))}
       </group>
+
       <mesh position={[2.5, floorHeight/2, 2]} castShadow receiveShadow material={lightWall}>
         <boxGeometry args={[5, floorHeight, 0.1]} />
       </mesh>
+      {/* Lounge Bár */}
       <mesh position={[4, 0.5, 0]} castShadow receiveShadow material={deskMat}>
         <boxGeometry args={[4, 1, 0.8]} />
       </mesh>
