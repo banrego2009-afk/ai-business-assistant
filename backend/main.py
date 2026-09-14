@@ -63,6 +63,24 @@ async def create_task(task: TaskRequest):
     conn.close()
     return {"id": task_id, "status": "success"}
 
+@app.delete("/api/tasks/{task_id}")
+async def delete_task(task_id: int):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+    conn.commit()
+    conn.close()
+    return {"status": "deleted"}
+
+@app.put("/api/tasks/{task_id}")
+async def update_task(task_id: int, status: str):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE tasks SET status = ? WHERE id = ?", (status, task_id))
+    conn.commit()
+    conn.close()
+    return {"status": "updated"}
+
 @app.post("/api/settings")
 async def update_settings(settings: SettingsRequest):
     conn = get_db()

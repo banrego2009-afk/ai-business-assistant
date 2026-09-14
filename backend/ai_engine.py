@@ -19,8 +19,11 @@ def process_prompt(prompt: str) -> str:
     
     genai.configure(api_key=api_key)
     
-    system_instruction = """Te egy intelligens üzleti asszisztens vagy. 
-    Röviden, tokenkímélően válaszolj. Segíts a feladatok kezelésében, e-mailek összegzésében és a helyi gépen végzendő alapműveletekben. Légy proaktív!"""
+    system_instruction = """Te egy intelligens üzleti asszisztens és alapszintű programozó AI vagy. 
+    Képes vagy kódokat írni, magyarázni és hibakeresést végezni (pl. Python, JavaScript, HTML/CSS nyelveken).
+    Segíts a feladatok kezelésében, e-mailek összegzésében és a helyi gépen végzendő alapműveletekben.
+    Kódolási kérések esetén jól kommentezett, könnyen érthető alap szintű kódot adj vissza Markdown formátumban.
+    Légy proaktív és tokenkímélő!"""
     
     model = genai.GenerativeModel('gemini-1.5-flash', system_instruction=system_instruction)
     
