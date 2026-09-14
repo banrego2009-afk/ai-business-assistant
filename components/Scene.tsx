@@ -50,7 +50,7 @@ function CameraController() {
 export default function Scene({ activeSystem }: { activeSystem: string | null }) {
   return (
     <div className="fixed inset-0 w-full h-full -z-10 bg-[#0B0E10]">
-      <Canvas>
+      <Canvas shadows>
         <CameraController />
         <ambientLight intensity={1.5} />
         <directionalLight position={[10, 20, 10]} intensity={2.0} castShadow shadow-mapSize={[1024, 1024]} />
