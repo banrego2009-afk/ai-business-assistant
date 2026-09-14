@@ -14,7 +14,7 @@ export default function Home() {
 
       {/* Navigáció */}
       <nav className="fixed top-0 left-0 w-full p-6 flex justify-between items-center z-50 mix-blend-difference text-white">
-        <div className="font-bold tracking-widest text-xl">VOLTLINEA</div>
+        <div className="font-bold tracking-widest text-xl uppercase">[ Vollständiger Name ]</div>
         <div className="flex gap-4 text-xs font-mono font-bold">
           <button className="hover:text-[var(--color-lime)] transition-colors">CH</button>
           <button className="text-gray-500">AT</button>
@@ -142,8 +142,53 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 5. Együttműködés & Kapcsolat */}
-        <section className="min-h-screen flex flex-col justify-center px-6 md:px-20 bg-white text-[var(--color-graphite)]">
+        {/* 5. Személyes Szakmai Profil */}
+        <section className="min-h-screen flex items-center justify-center px-6 md:px-20 bg-[var(--color-graphite)] text-white relative z-10 pointer-events-auto border-t border-[var(--color-surface)]">
+          <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div className="order-2 md:order-1 flex justify-center">
+              {/* Absztrakt vagy valós portré helye */}
+              <div className="w-full max-w-sm aspect-[3/4] bg-[var(--color-surface)] border border-[var(--color-steel)]/20 rounded-2xl relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-graphite)] to-transparent z-10"></div>
+                <div className="absolute inset-0 flex items-center justify-center text-[var(--color-steel)] font-mono text-sm opacity-50 z-20 group-hover:opacity-100 transition-opacity">
+                  [ Portrait / Architekturfoto ]
+                </div>
+                {/* Geometriai díszítés portré hiányában */}
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(212,245,104,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(212,245,104,0.05)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+              </div>
+            </div>
+            
+            <div className="order-1 md:order-2">
+              <div className="inline-block border border-[var(--color-lime)] text-[var(--color-lime)] px-3 py-1 rounded-full text-xs font-mono mb-6 uppercase tracking-widest">
+                [ Vollständiger Name ]
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                10 Jahre Erfahrung in der österreichischen Gebäudeelektrotechnik.
+              </h2>
+              <div className="space-y-4 text-[var(--color-steel)] text-lg leading-relaxed">
+                <p>
+                  Als unabhängiger Elektroplaner übernehme ich die vollständige technische Ausarbeitung – von der ersten Konzeption bis zur ausführungsreifen CAD-Zeichnung.
+                </p>
+                <p>
+                  Mein Fokus liegt auf der eigenständigen Umsetzung komplexer Gebäudeinfrastrukturen. Ich verstehe die Zusammenhänge der Systeme und arbeite nahtlos mit Ihrem bestehenden Projektteam zusammen.
+                </p>
+              </div>
+              
+              <div className="mt-8 grid grid-cols-2 gap-4">
+                <div className="bg-[var(--color-surface)] p-4 rounded-xl border border-white/5">
+                  <div className="font-mono text-[var(--color-lime)] text-xs mb-1">Software</div>
+                  <div className="font-bold">AutoCAD, 3D-Planung</div>
+                </div>
+                <div className="bg-[var(--color-surface)] p-4 rounded-xl border border-white/5">
+                  <div className="font-mono text-[var(--color-lime)] text-xs mb-1">Einsatzort</div>
+                  <div className="font-bold">Remote / Hybrid</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 6. Együttműködés & Kapcsolat */}
+        <section className="min-h-screen flex flex-col justify-center px-6 md:px-20 bg-white text-[var(--color-graphite)] pointer-events-auto relative z-10">
           <div className="max-w-4xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-16">
             <div>
               <h2 className="text-4xl md:text-5xl font-bold mb-6">Ein erfahrener Elektroplaner für Ihr Projektteam.</h2>
