@@ -23,7 +23,7 @@ function CameraController() {
 
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: "#scroll-container",
+        trigger: "#animation-track",
         start: "top top",
         end: "bottom bottom",
         scrub: 0.5, // 1.5 helyett 0.5, így sokkal hamarabb reagál a görgetésre!

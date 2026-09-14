@@ -78,62 +78,66 @@ export default function Home() {
 
       {/* Görgethető tartalom */}
       <div id="scroll-container" className="relative z-10">
-        
-        {/* 1. KREATÍV KÖZPONTI HERO (Beleolvad a 3D-be) */}
-        <section className="h-[120vh] flex flex-col items-center justify-center px-6 pointer-events-none">
-          <div ref={heroTextRef} className="flex flex-col items-center text-center z-20 w-full max-w-5xl">
-            <div className="inline-block border border-[var(--color-lime)] text-[var(--color-lime)] px-4 py-1.5 rounded-full text-xs font-mono mb-8 uppercase tracking-widest animate-in fade-in slide-in-from-bottom-4 duration-1000 shadow-[0_4px_16px_rgba(0,0,0,0.8)] bg-black/20">
-              Externe Elektroplanung
+        {/* 3D Animáció hossza (Csak ezen a szakaszon animál a GSAP) */}
+        <div id="animation-track">
+          {/* 1. KREATÍV KÖZPONTI HERO (Beleolvad a 3D-be) */}
+          <section className="h-[100vh] md:h-[120vh] flex flex-col items-center justify-center px-6 pointer-events-none">
+            <div ref={heroTextRef} className="flex flex-col items-center text-center z-20 w-full max-w-5xl">
+              <div className="inline-block border border-[var(--color-lime)] text-[var(--color-lime)] px-4 py-1.5 rounded-full text-xs font-mono mb-8 uppercase tracking-widest animate-in fade-in slide-in-from-bottom-4 duration-1000 shadow-[0_4px_16px_rgba(0,0,0,0.8)] bg-black/20">
+                Externe Elektroplanung
+              </div>
+              
+              <h1 className="text-5xl md:text-8xl lg:text-[7rem] font-bold leading-[1.1] mb-6 md:mb-8 tracking-tight text-white drop-shadow-[0_8px_16px_rgba(0,0,0,0.9)] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+                DAS SYSTEM HINTER<br/>DEM GEBÄUDE.
+              </h1>
+              
+              <p className="text-lg md:text-2xl text-[var(--color-offwhite)] mb-10 md:mb-12 max-w-2xl leading-relaxed drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
+                Elektroplanung, die Ihr Projekt voranbringt. Eigenständige Projektierung für Unternehmen in der Schweiz und Österreich.
+              </p>
+              
+              {/* Scroll Indicator */}
+              <div className="flex flex-col items-center gap-4 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] animate-in fade-in duration-1000 delay-700 mt-4 md:mt-0">
+                <span className="text-xs font-mono tracking-widest uppercase">Projekt erkunden</span>
+                <div className="w-px h-12 bg-gradient-to-b from-[var(--color-lime)] to-transparent animate-pulse"></div>
+              </div>
             </div>
-            
-            <h1 className="text-5xl md:text-8xl lg:text-[7rem] font-bold leading-[1.1] mb-8 tracking-tight text-white drop-shadow-[0_8px_16px_rgba(0,0,0,0.9)] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
-              DAS SYSTEM HINTER<br/>DEM GEBÄUDE.
-            </h1>
-            
-            <p className="text-lg md:text-2xl text-[var(--color-offwhite)] mb-12 max-w-2xl leading-relaxed drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
-              Elektroplanung, die Ihr Projekt voranbringt. Eigenständige Projektierung für Unternehmen in der Schweiz und Österreich.
-            </p>
-            
-            {/* Scroll Indicator */}
-            <div className="flex flex-col items-center gap-4 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] animate-in fade-in duration-1000 delay-700">
-              <span className="text-xs font-mono tracking-widest uppercase">Projekt erkunden</span>
-              <div className="w-px h-12 bg-gradient-to-b from-[var(--color-lime)] to-transparent animate-pulse"></div>
+          </section>
+
+          {/* 2. Épületmetszet Feltárása */}
+          <section className="min-h-[120vh] md:min-h-[150vh] flex items-center px-6 md:px-20 pointer-events-none">
+            <div className="max-w-2xl">
+              <h2 className="reveal-heading text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-[0_8px_16px_rgba(0,0,0,0.9)]">
+                Präzision im Detail.
+              </h2>
+              <p className="reveal-text text-xl md:text-2xl text-[var(--color-offwhite)] leading-relaxed drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)]">
+                Die Architektur ist die Hülle, die Gebäudetechnik ist das Nervensystem, das sie zum Leben erweckt. Wir planen technische Systeme als Ganzes.
+              </p>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* 2. Épületmetszet Feltárása */}
-        <section className="min-h-[150vh] flex items-center px-6 md:px-20 pointer-events-none">
-          <div className="max-w-2xl">
-            <h2 className="reveal-heading text-5xl md:text-6xl font-bold mb-6 text-white drop-shadow-[0_8px_16px_rgba(0,0,0,0.9)]">
-              Präzision im Detail.
-            </h2>
-            <p className="reveal-text text-2xl text-[var(--color-offwhite)] leading-relaxed drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)]">
-              Die Architektur ist die Hülle, die Gebäudetechnik ist das Nervensystem, das sie zum Leben erweckt. Wir planen technische Systeme als Ganzes.
-            </p>
-          </div>
-        </section>
-
-        {/* 3. 3D -> 2D Tervrajz */}
-        <section className="min-h-[150vh] flex items-center px-6 md:px-20 pointer-events-none justify-end">
-          <div className="max-w-2xl text-right">
-            <h2 className="reveal-heading text-5xl md:text-6xl font-bold mb-6 text-white drop-shadow-[0_8px_16px_rgba(0,0,0,0.9)]">
-              Räumlich gedacht.<br/>Flach gezeichnet.
-            </h2>
-            <p className="reveal-text text-2xl text-white leading-relaxed drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)] ml-auto max-w-xl">
-              Vom räumlichen Zusammenhang bis ins Detail. Präzise 2D-Pläne und 3D-Modelle in AutoCAD für eine reibungslose Integration.
-            </p>
-          </div>
-        </section>
+          {/* 3. 3D -> 2D Tervrajz */}
+          <section className="min-h-[120vh] md:min-h-[150vh] flex items-center px-6 md:px-20 pointer-events-none justify-end">
+            <div className="max-w-2xl text-right">
+              <h2 className="reveal-heading text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-[0_8px_16px_rgba(0,0,0,0.9)]">
+                Räumlich gedacht.<br/>Flach gezeichnet.
+              </h2>
+              <p className="reveal-text text-xl md:text-2xl text-white leading-relaxed drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)] ml-auto max-w-xl">
+                Vom räumlichen Zusammenhang bis ins Detail. Präzise 2D-Pläne und 3D-Modelle in AutoCAD für eine reibungslose Integration.
+              </p>
+            </div>
+          </section>
+        </div>
 
         {/* 4. Interaktív Rendszerbemutató */}
-        <section className="min-h-[120vh] flex flex-col justify-center px-6 md:px-20 bg-gradient-to-b from-transparent via-[var(--color-graphite)] to-[var(--color-graphite)] pointer-events-auto">
-          <div className="max-w-lg mb-16 pt-32">
+        <section className="min-h-screen flex flex-col justify-center px-6 md:px-20 bg-[var(--color-graphite)] md:bg-transparent md:bg-gradient-to-b md:from-transparent md:via-[var(--color-graphite)] md:to-[var(--color-graphite)] pointer-events-auto py-20 md:py-32 relative z-20">
+          <div className="max-w-lg mb-12 md:mb-16">
             <h2 className="reveal-heading text-4xl md:text-5xl font-bold mb-6">Umfassende Elektroplanung</h2>
-            <p className="reveal-text text-xl text-[var(--color-steel)]">Berühren Sie ein System, um die Planungsdetails in 3D zu erkunden.</p>
+            <p className="reveal-text text-xl text-[var(--color-steel)] md:block hidden">Berühren Sie ein System, um die Planungsdetails in 3D zu erkunden.</p>
+            <p className="reveal-text text-xl text-[var(--color-steel)] block md:hidden">Professionelle Projektierung und Dimensionierung von der ersten Berechnung bis zur CAD-Zeichnung.</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-20">
+          {/* ASZTALI NÉZET: Kettészedett, interaktív (Hover) */}
+          <div className="hidden md:grid grid-cols-2 gap-12">
             <div className="flex flex-col gap-4">
               {[
                 "Energieverteilung",
@@ -158,7 +162,6 @@ export default function Home() {
             </div>
             
             <div className="bg-[#111518]/90 backdrop-blur-xl border border-white/10 rounded-3xl p-10 flex flex-col justify-center shadow-2xl relative overflow-hidden">
-              {/* Dekoratív fény a dobozban */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--color-lime)]/10 blur-[100px] pointer-events-none rounded-full"></div>
               
               {activeSystem ? (
@@ -182,13 +185,37 @@ export default function Home() {
               )}
             </div>
           </div>
+
+          {/* MOBIL NÉZET: Kompakt kártyás lista (Nincs hover, minden látszik) */}
+          <div className="flex md:hidden flex-col gap-6">
+            {[
+              "Energieverteilung",
+              "Beleuchtung",
+              "Steckdosen und Stromkreise",
+              "Sicherheits- und Beschallungssysteme",
+              "Steuerung und Gebäudeautomation"
+            ].map((sys) => (
+              <div key={sys} className="bg-[#111518] border border-white/10 rounded-2xl p-6 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-lime)]/5 blur-[50px] pointer-events-none rounded-full"></div>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="text-[var(--color-lime)]"><Hexagon className="w-6 h-6" /></div>
+                  <h3 className="font-bold text-xl">{sys}</h3>
+                </div>
+                <ul className="space-y-3 mt-4">
+                  <li className="flex gap-3 text-sm text-[var(--color-steel)] items-center"><CheckCircle2 className="w-4 h-4 text-[var(--color-lime)] shrink-0" /> <span>Konzept & Dimensionierung</span></li>
+                  <li className="flex gap-3 text-sm text-[var(--color-steel)] items-center"><CheckCircle2 className="w-4 h-4 text-[var(--color-lime)] shrink-0" /> <span>Leitungsführung & Trassierung</span></li>
+                  <li className="flex gap-3 text-sm text-[var(--color-steel)] items-center"><CheckCircle2 className="w-4 h-4 text-[var(--color-lime)] shrink-0" /> <span>Detaillierte CAD-Ausarbeitung</span></li>
+                </ul>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* 5. Személyes Szakmai Profil */}
-        <section className="min-h-screen flex items-center justify-center px-6 md:px-20 bg-[var(--color-graphite)] text-white relative z-10 pointer-events-auto border-t border-[var(--color-surface)]">
-          <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <section className="min-h-screen flex items-center justify-center px-6 md:px-20 bg-[var(--color-graphite)] text-white relative z-10 pointer-events-auto border-t border-[var(--color-surface)] py-20 md:py-32">
+          <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="order-2 lg:order-1 flex justify-center w-full">
-              <div className="w-full max-w-md aspect-[3/4] bg-[#111518] border border-[var(--color-steel)]/20 rounded-3xl relative overflow-hidden group shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+              <div className="w-full max-w-sm md:max-w-md aspect-[3/4] bg-[#111518] border border-[var(--color-steel)]/20 rounded-3xl relative overflow-hidden group shadow-[0_0_50px_rgba(0,0,0,0.5)]">
                 <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-graphite)] via-transparent to-transparent z-10"></div>
                 <div className="absolute inset-0 flex items-center justify-center text-[var(--color-steel)] font-mono text-sm opacity-50 z-20 group-hover:opacity-100 transition-opacity">
                   [ Portrait / Architekturfoto ]
@@ -199,13 +226,13 @@ export default function Home() {
             </div>
             
             <div className="order-1 lg:order-2">
-              <div className="reveal-heading inline-block border border-[var(--color-lime)] text-[var(--color-lime)] px-4 py-1.5 rounded-full text-xs font-mono mb-8 uppercase tracking-widest">
+              <div className="reveal-heading inline-block border border-[var(--color-lime)] text-[var(--color-lime)] px-4 py-1.5 rounded-full text-xs font-mono mb-6 md:mb-8 uppercase tracking-widest">
                 [ Vollständiger Name ]
               </div>
-              <h2 className="reveal-heading text-4xl md:text-5xl font-bold mb-8 leading-tight">
+              <h2 className="reveal-heading text-4xl md:text-5xl font-bold mb-6 md:mb-8 leading-tight">
                 10 Jahre Erfahrung in der österreichischen Gebäudeelektrotechnik.
               </h2>
-              <div className="space-y-6 text-[var(--color-steel)] text-xl leading-relaxed reveal-text">
+              <div className="space-y-6 text-[var(--color-steel)] text-lg md:text-xl leading-relaxed reveal-text">
                 <p>
                   Als unabhängiger Elektroplaner übernehme ich die vollständige technische Ausarbeitung – von der ersten Konzeption bis zur ausführungsreifen CAD-Zeichnung.
                 </p>
@@ -214,14 +241,14 @@ export default function Home() {
                 </p>
               </div>
               
-              <div className="mt-12 grid grid-cols-2 gap-6 reveal-text">
-                <div className="bg-[#111518] p-6 rounded-2xl border border-white/5 shadow-lg">
+              <div className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 reveal-text">
+                <div className="bg-[#111518] p-5 md:p-6 rounded-2xl border border-white/5 shadow-lg">
                   <div className="font-mono text-[var(--color-lime)] text-xs mb-2 uppercase tracking-wider">Software</div>
-                  <div className="font-bold text-lg">AutoCAD, 3D-Planung</div>
+                  <div className="font-bold text-base md:text-lg">AutoCAD, 3D-Planung</div>
                 </div>
-                <div className="bg-[#111518] p-6 rounded-2xl border border-white/5 shadow-lg">
+                <div className="bg-[#111518] p-5 md:p-6 rounded-2xl border border-white/5 shadow-lg">
                   <div className="font-mono text-[var(--color-lime)] text-xs mb-2 uppercase tracking-wider">Einsatzort</div>
-                  <div className="font-bold text-lg">Remote / Hybrid</div>
+                  <div className="font-bold text-base md:text-lg">Remote / Hybrid</div>
                 </div>
               </div>
             </div>
@@ -229,13 +256,13 @@ export default function Home() {
         </section>
 
         {/* 6. Együttműködés & Kapcsolat */}
-        <section className="min-h-screen flex flex-col justify-center px-6 md:px-20 bg-[var(--color-offwhite)] text-[var(--color-graphite)] pointer-events-auto relative z-10 py-20">
-          <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20">
+        <section className="min-h-screen flex flex-col justify-center px-6 md:px-20 bg-[var(--color-offwhite)] text-[var(--color-graphite)] pointer-events-auto relative z-10 py-20 md:py-32">
+          <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
             <div className="flex flex-col justify-center">
-              <h2 className="reveal-heading text-4xl md:text-6xl font-bold mb-8 leading-tight">Ein erfahrener Elektroplaner für Ihr Projektteam.</h2>
-              <div className="space-y-8 mt-8 reveal-text">
+              <h2 className="reveal-heading text-4xl md:text-6xl font-bold mb-6 md:mb-8 leading-tight">Ein erfahrener Elektroplaner für Ihr Projektteam.</h2>
+              <div className="space-y-6 md:space-y-8 mt-4 md:mt-8 reveal-text">
                 <div className="border-l-4 border-[var(--color-graphite)] pl-6 hover:border-[var(--color-lime)] transition-colors cursor-default">
-                  <h4 className="font-bold text-2xl mb-2">Projektbezogener Einsatz</h4>
+                  <h4 className="font-bold text-xl md:text-2xl mb-2">Projektbezogener Einsatz</h4>
                   <p className="text-gray-600 text-lg">Gezielte Verstärkung für Lastspitzen in laufenden Projekten.</p>
                 </div>
                 <div className="border-l-4 border-gray-300 pl-6 hover:border-[var(--color-lime)] transition-colors cursor-default">

@@ -25,7 +25,7 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
 
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: "#scroll-container",
+        trigger: "#animation-track",
         start: "top top",
         end: "bottom bottom",
         scrub: 0.5,
