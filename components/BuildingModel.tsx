@@ -28,7 +28,7 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
         trigger: "#scroll-container",
         start: "top top",
         end: "bottom bottom",
-        scrub: 1.5,
+        scrub: 0.5,
       }
     });
 
@@ -242,11 +242,42 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
         ))}
       </group>
 
-      {/* KÖZPONTI MAG */}
-      <mesh name="central-core" position={[0, totalHeight / 2, -2]} castShadow receiveShadow material={coreMat}>
-        <boxGeometry args={[3.5, totalHeight, 3.5]} />
-        <Edges scale={1.001} color="#334155" />
-      </mesh>
+      {/* KÖZPONTI MAG (Lépcsőház) - Üvegfalú, hogy lássuk a lépcsőket! */}
+      <group name="central-core" position={[0, 0, -2]}>
+        {/* Hátsó tömör betonfal */}
+        <mesh position={[0, totalHeight / 2, -1.7]} castShadow receiveShadow material={coreMat}>
+          <boxGeometry args={[3.5, totalHeight, 0.1]} />
+        </mesh>
+        {/* Oldalsó betonfalak */}
+        <mesh position={[-1.7, totalHeight / 2, 0]} castShadow receiveShadow material={coreMat}>
+          <boxGeometry args={[0.1, totalHeight, 3.5]} />
+        </mesh>
+        <mesh position={[1.7, totalHeight / 2, 0]} castShadow receiveShadow material={coreMat}>
+          <boxGeometry args={[0.1, totalHeight, 3.5]} />
+        </mesh>
+        {/* Elülső üvegfal, amin át látjuk a lépcsőket */}
+        <mesh position={[0, totalHeight / 2, 1.7]} castShadow receiveShadow material={glassWall}>
+          <boxGeometry args={[3.5, totalHeight, 0.1]} />
+        </mesh>
+
+        {/* Lépcsőkarok generálása szintenként */}
+        {Array.from({ length: floorsCount }).map((_, f) => (
+          <group key={`stairs-${f}`} position={[0, f * floorHeight, 0]}>
+            {/* Lépcső pihenő félemeleten */}
+            <mesh position={[0, floorHeight / 2, -1.2]} castShadow receiveShadow material={coreMat}>
+              <boxGeometry args={[3.3, 0.1, 1]} />
+            </mesh>
+            {/* Felfelé menő ág (Bal oldal) */}
+            <mesh position={[-0.8, floorHeight / 4, 0.2]} rotation={[0.6, 0, 0]} castShadow receiveShadow material={lightWall}>
+              <boxGeometry args={[1.5, 0.1, 3.5]} />
+            </mesh>
+            {/* Tovább menő ág a következő szintre (Jobb oldal) */}
+            <mesh position={[0.8, floorHeight * 0.75, 0.2]} rotation={[-0.6, 0, 0]} castShadow receiveShadow material={lightWall}>
+              <boxGeometry args={[1.5, 0.1, 3.5]} />
+            </mesh>
+          </group>
+        ))}
+      </group>
 
       {/* RÉSZLETES EMELETEK */}
       {Array.from({ length: floorsCount }).map((_, f) => (

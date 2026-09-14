@@ -26,7 +26,7 @@ function CameraController() {
         trigger: "#scroll-container",
         start: "top top",
         end: "bottom bottom",
-        scrub: 1.5,
+        scrub: 0.5, // 1.5 helyett 0.5, így sokkal hamarabb reagál a görgetésre!
       }
     });
 
@@ -38,9 +38,9 @@ function CameraController() {
     tl.to(cameraRef.current.position, { x: 0, y: 40, z: 0, ease: "power3.inOut", duration: 1.5 }, 1)
       .to(cameraRef.current.rotation, { x: -Math.PI / 2, y: 0, z: 0, ease: "power3.inOut", duration: 1.5 }, 1);
       
-    // Szekció 3: Rendszerek részletezése (Visszatérés egy drámai izometrikus nézetbe)
-    tl.to(cameraRef.current.position, { x: -20, y: 15, z: 15, ease: "power2.inOut", duration: 1.5 }, 2.5)
-      .to(cameraRef.current.rotation, { x: -0.6, y: -0.7, z: -0.4, ease: "power2.inOut", duration: 1.5 }, 2.5);
+    // Szekció 3: Robbantott nézet, közelebbről, fókuszálva (Nagyobb beleközelítés!)
+    tl.to(cameraRef.current.position, { x: -14, y: 12, z: 14, ease: "power2.inOut", duration: 1.5 }, 2.5)
+      .to(cameraRef.current.rotation, { x: -0.54, y: -0.78, z: -0.2, ease: "power2.inOut", duration: 1.5 }, 2.5);
 
   });
 
