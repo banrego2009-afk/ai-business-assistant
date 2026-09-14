@@ -1,10 +1,10 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, PerspectiveCamera, Grid } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { PerspectiveCamera, Grid } from "@react-three/drei";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import BuildingModel from "./BuildingModel";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";

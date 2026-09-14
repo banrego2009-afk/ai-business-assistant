@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import Scene from "@/components/Scene";
-import { ArrowRight, ChevronDown, CheckCircle2, Hexagon } from "lucide-react";
+import { CheckCircle2, Hexagon } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -32,10 +32,10 @@ export default function Home() {
     }
 
     // 2. Reveal animáció a címsorokhoz
-    gsap.utils.toArray(".reveal-heading").forEach((heading: any) => {
-      gsap.from(heading, {
+    gsap.utils.toArray(".reveal-heading").forEach((heading: unknown) => {
+      gsap.from(heading as HTMLElement, {
         scrollTrigger: {
-          trigger: heading,
+          trigger: heading as HTMLElement,
           start: "top 80%",
         },
         y: 40,
@@ -46,10 +46,10 @@ export default function Home() {
     });
 
     // 3. Reveal animáció a bekezdésekhez
-    gsap.utils.toArray(".reveal-text").forEach((p: any) => {
-      gsap.from(p, {
+    gsap.utils.toArray(".reveal-text").forEach((p: unknown) => {
+      gsap.from(p as HTMLElement, {
         scrollTrigger: {
-          trigger: p,
+          trigger: p as HTMLElement,
           start: "top 85%",
         },
         y: 30,

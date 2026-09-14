@@ -46,7 +46,7 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
 
     // Fázis 1: RÖNTGEN / NYITÁS (A homlokzat eltűnik, a szintek enyhén eltávolodnak, hogy átlátható legyen)
     tl.to(facade.current.position, { y: 8, duration: 1.5, ease: "power2.inOut" }, 0)
-      .to(facade.current.children.map((c: any) => c.material), { opacity: 0, duration: 1 }, 0.2);
+      .to(facade.current.children.map((c: THREE.Object3D) => (c as THREE.Mesh).material), { opacity: 0, duration: 1 }, 0.2);
       
     // Diszkrét, tiszta robbantott ábra (nem káoszos, csak elegánsan szétnyílik)
     floorRefs.current.forEach((floor, index) => {
@@ -75,10 +75,11 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
   useFrame(() => {
     if (!wireSystem.current) return;
     
-    wireSystem.current.children.forEach((floorGroup: any) => {
-      floorGroup.children.forEach((child: any) => {
-        if (child.material && child.userData.system) {
-          const isActive = activeSystem === child.userData.system;
+    wireSystem.current.children.forEach((floorGroup: THREE.Object3D) => {
+      floorGroup.children.forEach((child: THREE.Object3D) => {
+        const mesh = child as THREE.Mesh;
+        if (mesh.material && mesh.userData.system) {
+          const isActive = activeSystem === mesh.userData.system;
           const isNoneActive = activeSystem === null;
           
           // Ha aktív, akkor erős kék/lime. Ha nem, akkor halvány szürke.
@@ -86,9 +87,10 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
           const targetOpacity = isActive || isNoneActive ? 1.0 : 0.1;
           const targetEmissive = isActive || isNoneActive ? 1.5 : 0.0;
 
-          child.material.color.lerp(targetColor, 0.1);
-          child.material.emissiveIntensity = THREE.MathUtils.lerp(child.material.emissiveIntensity, targetEmissive, 0.1);
-          child.material.opacity = THREE.MathUtils.lerp(child.material.opacity, targetOpacity, 0.1);
+          const mat = mesh.material as THREE.MeshStandardMaterial;
+          mat.color.lerp(targetColor, 0.1);
+          mat.emissiveIntensity = THREE.MathUtils.lerp(mat.emissiveIntensity, targetEmissive, 0.1);
+          mat.opacity = THREE.MathUtils.lerp(mat.opacity, targetOpacity, 0.1);
         }
       });
     });
