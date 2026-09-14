@@ -32,14 +32,21 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
       }
     });
 
-    // 1. (0 - 1s): A külső üvegburok egyszerűen elhalványul
+    // 1. (0 - 1s): A külső üvegburok és MINDEN gyermeke (Edges is!) teljesen eltűnik
     facade.current.traverse((child: THREE.Object3D) => {
-      if ((child as THREE.Mesh).isMesh && (child as THREE.Mesh).material) {
-        tl.to((child as THREE.Mesh).material, { opacity: 0, duration: 1 }, 0);
-      } else if ((child as THREE.LineSegments).isLineSegments && (child as THREE.LineSegments).material) {
-        tl.to((child as THREE.LineSegments).material, { opacity: 0, duration: 1 }, 0);
+      const asMesh = child as THREE.Mesh;
+      const asLine = child as THREE.LineSegments;
+      if (asMesh.isMesh && asMesh.material) {
+        const mat = Array.isArray(asMesh.material) ? asMesh.material[0] : asMesh.material;
+        tl.to(mat, { opacity: 0, duration: 1 }, 0);
+      }
+      if (asLine.isLineSegments && asLine.material) {
+        const mat = Array.isArray(asLine.material) ? asLine.material[0] : asLine.material;
+        tl.to(mat, { opacity: 0, duration: 1 }, 0);
       }
     });
+    // A csoport teljesen elrejtése az animáció végén (garantálja, hogy semmi se látszik)
+    tl.set(facade.current, { visible: false }, 1.05);
 
     // 2. (1s - 2.5s): 3D -> 2D Tervrajz (A szintek és a mag kilapulnak a talajra a felülnézeti kamerához)
     floorRefs.current.forEach((floor, index) => {
@@ -232,7 +239,6 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
         <mesh position={[0, totalHeight / 2, 0]}>
           <boxGeometry args={[buildingWidth + 0.2, totalHeight + 0.2, buildingDepth + 0.2]} />
           <primitive object={facadeMat} attach="material" />
-          <Edges scale={1.0} color="#64748b" opacity={0.6} transparent />
         </mesh>
         {Array.from({ length: floorsCount + 1 }).map((_, i) => (
           <mesh key={`facade-band-${i}`} position={[0, i * floorHeight, 0]}>
