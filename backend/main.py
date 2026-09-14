@@ -1,16 +1,18 @@
-from fastapi import FastAPI, HTTPException, Request
+import os
+import threading
+import uvicorn
+import webview
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import os
-import uvicorn
 
 from database import init_db, get_db
 from ai_engine import process_prompt
 from local_control import execute_command
-from email_service import check_emails
+from email_service import fetch_real_emails, get_email_settings
 
-app = FastAPI(title="AI Business Assistant")
+app = FastAPI(title="AI Business Assistant Pro")
 
 app.add_middleware(
     CORSMiddleware,
@@ -25,6 +27,9 @@ class PromptRequest(BaseModel):
 
 class SettingsRequest(BaseModel):
     gemini_api_key: str
+    email_address: str = ""
+    email_password: str = ""
+    imap_server: str = "imap.gmail.com"
 
 class TaskRequest(BaseModel):
     title: str
@@ -85,8 +90,13 @@ async def update_task(task_id: int, status: str):
 async def update_settings(settings: SettingsRequest):
     conn = get_db()
     cursor = conn.cursor()
-    cursor.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('gemini_api_key', ?)", 
-                   (settings.gemini_api_key,))
+    cursor.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('gemini_api_key', ?)", (settings.gemini_api_key,))
+    if settings.email_address:
+        cursor.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('email_address', ?)", (settings.email_address,))
+    if settings.email_password:
+        cursor.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('email_password', ?)", (settings.email_password,))
+    if settings.imap_server:
+        cursor.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('imap_server', ?)", (settings.imap_server,))
     conn.commit()
     conn.close()
     return {"status": "success"}
@@ -98,11 +108,66 @@ async def run_local_command(req: CommandRequest):
 
 @app.get("/api/emails")
 async def get_emails():
-    return {"emails": check_emails()}
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT value FROM settings WHERE key = 'gemini_api_key'")
+    row = cursor.fetchone()
+    api_key = row['value'] if row else None
+    
+    emails = fetch_real_emails(conn, api_key)
+    conn.close()
+    return {"emails": emails}
 
 frontend_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend")
 if os.path.exists(frontend_path):
     app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
 
+def start_server():
+    uvicorn.run(app, host="127.0.0.1", port=8000, log_level="error")
+
+def on_quit_clicked(icon, item):
+    icon.stop()
+    import sys
+    import os
+    os._exit(0)
+
+def setup_tray():
+    import pystray
+    from PIL import Image, ImageDraw
+    
+    # Készítünk egy egyszerű ikont memóriában
+    image = Image.new('RGB', (64, 64), color = (79, 70, 229))
+    d = ImageDraw.Draw(image)
+    d.text((16, 20), "AI", fill=(255, 255, 255))
+    
+    menu = pystray.Menu(
+        pystray.MenuItem('Kilépés (Teljes leállítás)', on_quit_clicked)
+    )
+    
+    icon = pystray.Icon("AIAssistant", image, "AI Üzleti Asszisztens", menu)
+    icon.run()
+
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    # Start FastAPI in a daemon thread
+    t_server = threading.Thread(target=start_server, daemon=True)
+    t_server.start()
+    
+    # Start Tray Icon in a daemon thread
+    t_tray = threading.Thread(target=setup_tray, daemon=True)
+    t_tray.start()
+    
+    # Start Desktop UI window (Blocks main thread)
+    window = webview.create_window('AI Business Assistant Pro', 'http://127.0.0.1:8000', width=1200, height=800)
+    
+    def on_closing():
+        # Ez akkor fut le, ha az X-re kattintanak.
+        # Ha be akarjuk zárni a szervert is az X-el, akkor os._exit(0)
+        # Ha csak elrejteni akarjuk, akkor a tray-ből lehetne visszahozni.
+        # A feladat: "hogy valahogy könnyű módon be lehessen zárni az egészet, hogy ténylegesen bezáródjon."
+        # Így az X is leállít mindent.
+        import os
+        os._exit(0)
+        
+    window.events.closed += on_closing
+    
+    webview.start()

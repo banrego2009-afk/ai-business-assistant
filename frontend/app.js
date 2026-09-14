@@ -231,7 +231,7 @@ async function deleteTask(id) {
 // --- Emails ---
 async function loadEmails() {
     const list = document.getElementById("email-list");
-    list.innerHTML = `<div class="text-center py-10 text-slate-400 text-sm"><i class="fas fa-spinner fa-spin text-2xl mb-2"></i><br>Szinkronizálás...</div>`;
+    list.innerHTML = `<div class="text-center py-10 text-slate-400 text-sm"><i class="fas fa-spinner fa-spin text-2xl mb-2"></i><br>E-mailek letöltése és AI kategorizálása folyamatban...</div>`;
     
     try {
         const response = await fetch(`${API_BASE}/emails`);
@@ -244,18 +244,24 @@ async function loadEmails() {
         
         list.innerHTML = "";
         data.emails.forEach(email => {
+            // Category color logic
+            let badgeClass = "bg-slate-100 text-slate-500";
+            if (email.category === "Sürgős") badgeClass = "bg-red-100 text-red-600 border border-red-200";
+            if (email.category === "Feladat") badgeClass = "bg-orange-100 text-orange-600 border border-orange-200";
+            if (email.category === "Érdeklődés") badgeClass = "bg-emerald-100 text-emerald-600 border border-emerald-200";
+            
             const li = document.createElement("li");
-            li.className = "bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-blue-500";
+            li.className = "bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer";
             li.innerHTML = `
                 <div class="flex justify-between items-start mb-1">
-                    <div class="font-bold text-slate-800 text-sm truncate">${escapeHTML(email.subject)}</div>
-                    <div class="text-[10px] text-slate-400 whitespace-nowrap ml-2 font-medium bg-slate-100 px-2 py-0.5 rounded">Új levél</div>
+                    <div class="font-bold text-slate-800 text-sm truncate pr-2">${escapeHTML(email.subject)}</div>
+                    <div class="text-[10px] whitespace-nowrap font-bold px-2 py-0.5 rounded shadow-sm ${badgeClass}">${escapeHTML(email.category || "Információ")}</div>
                 </div>
                 <div class="text-xs text-slate-500 mb-2 font-medium">${escapeHTML(email.from)}</div>
                 <div class="text-xs text-slate-600 line-clamp-2 leading-relaxed">${escapeHTML(email.body)}</div>
                 <div class="mt-3 flex gap-2">
-                    <button class="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded hover:bg-slate-200 font-medium">Olvasott</button>
-                    <button class="text-xs bg-indigo-50 text-indigo-600 px-2 py-1 rounded hover:bg-indigo-100 font-medium" onclick="summarizeEmail('${escapeHTML(email.subject)}')">AI Összegzés</button>
+                    <button class="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded hover:bg-slate-200 font-medium">Megnyitás</button>
+                    <button class="text-xs bg-indigo-50 text-indigo-600 px-2 py-1 rounded hover:bg-indigo-100 font-medium" onclick="summarizeEmail('${escapeHTML(email.subject)}')">Kérdés az AI-tól</button>
                 </div>
             `;
             list.appendChild(li);
@@ -268,7 +274,7 @@ async function loadEmails() {
 function summarizeEmail(subject) {
     switchTab('chat');
     const inputEl = document.getElementById("prompt-input");
-    inputEl.value = `Kérlek összegezd ezt az e-mailt nekem: "${subject}"`;
+    inputEl.value = `Mit mond ez az e-mail részletesebben: "${subject}"? Mit válaszoljak rá?`;
     sendPrompt();
 }
 
@@ -334,18 +340,29 @@ function toggleSettings() {
 
 async function saveSettings() {
     const apiKey = document.getElementById("api-key-input").value;
+    const emailUser = document.getElementById("email-user-input").value;
+    const emailPass = document.getElementById("email-pass-input").value;
+    const imapServer = document.getElementById("imap-server-input").value;
+    
     try {
         await fetch(`${API_BASE}/settings`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ gemini_api_key: apiKey })
+            body: JSON.stringify({ 
+                gemini_api_key: apiKey,
+                email_address: emailUser,
+                email_password: emailPass,
+                imap_server: imapServer
+            })
         });
         toggleSettings();
-        document.getElementById("api-key-input").value = "";
         
         // Show success toast
         const btn = document.querySelector('button[onclick="toggleSettings()"]').parentElement.parentElement.querySelector('.text-lg');
         btn.innerHTML += ' <span class="text-green-500 text-xs ml-2">Mentve!</span>';
+        setTimeout(() => {
+            btn.innerHTML = '<i class="fas fa-cog text-slate-400 mr-2"></i> Rendszer Beállítások';
+        }, 3000);
     } catch (e) {
         alert("Hiba a beállítások mentésekor.");
     }
