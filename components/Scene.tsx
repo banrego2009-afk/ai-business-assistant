@@ -30,17 +30,17 @@ function CameraController() {
       }
     });
 
-    // Szekció 2: Épületmetszet feltárása (Kamera berepül, de kellő távolságot tart)
-    tl.to(cameraRef.current.position, { x: 18, y: 20, z: 18, ease: "power2.inOut", duration: 1 }, 0)
-      .to(cameraRef.current.rotation, { x: -0.5, y: 0.8, z: 0.2, ease: "power2.inOut", duration: 1 }, 0);
+    // Szekció 1: Enyhe közelítés (Zoom IN), miközben a külső burok eltűnik
+    tl.to(cameraRef.current.position, { x: 0, y: 8, z: 18, ease: "power2.inOut", duration: 1 }, 0)
+      .to(cameraRef.current.rotation, { x: -0.2, y: 0, z: 0, ease: "power2.inOut", duration: 1 }, 0);
 
-    // Szekció 3: 3D -> 2D Tervrajz (Kamera magasan, hogy minden beleférjen)
-    tl.to(cameraRef.current.position, { x: 0, y: 40, z: 0, ease: "power3.inOut", duration: 1.5 }, 1)
-      .to(cameraRef.current.rotation, { x: -Math.PI / 2, y: 0, z: 0, ease: "power3.inOut", duration: 1.5 }, 1);
-      
-    // Szekció 4: Rendszerek részletezése (Közelít, de nem túlzottan)
-    tl.to(cameraRef.current.position, { x: -20, y: 15, z: 15, ease: "power2.inOut", duration: 1.5 }, 2.5)
-      .to(cameraRef.current.rotation, { x: -0.6, y: -0.7, z: -0.4, ease: "power2.inOut", duration: 1.5 }, 2.5);
+    // Szekció 2: Kamera távolodik és elkezd keringeni (Zoom OUT and Spin), az épület egyben marad
+    tl.to(cameraRef.current.position, { x: 22, y: 18, z: 18, ease: "power2.inOut", duration: 1 }, 1)
+      .to(cameraRef.current.rotation, { x: -0.5, y: 0.8, z: 0.2, ease: "power2.inOut", duration: 1 }, 1);
+
+    // Szekció 3: Végső robbantott izometrikus nézet (Amikor az épület szétnyílik)
+    tl.to(cameraRef.current.position, { x: -22, y: 15, z: 15, ease: "power2.inOut", duration: 1 }, 2)
+      .to(cameraRef.current.rotation, { x: -0.6, y: -0.7, z: -0.4, ease: "power2.inOut", duration: 1 }, 2);
 
   });
 

@@ -32,7 +32,7 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
       }
     });
 
-    // 1. A külső üvegburok egyszerűen elhalványul
+    // 1. (0.0 - 1.0 mp): A külső üvegburok egyszerűen elhalványul (Kamera eközben ráközelít)
     facade.current.traverse((child: THREE.Object3D) => {
       if ((child as THREE.Mesh).isMesh && (child as THREE.Mesh).material) {
         tl.to((child as THREE.Mesh).material, { opacity: 0, duration: 1 }, 0);
@@ -41,37 +41,21 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
       }
     });
 
-    // 2. A szintek finoman szétnyílnak a mag mentén, hogy belássunk
+    // A 1.0 - 2.0 mp közötti időszakban az épület TÖKÉLETESEN EGYBEN MARAD, nem mozdulnak a szintek.
+    // (A kamera ekkor távolodik és elkezd keringeni körülötte).
+
+    // 2. (2.0 - 3.0 mp): A legvégén a szintek finoman szétnyílnak a mag mentén, hogy belássunk a szobákba.
     floorRefs.current.forEach((floor, index) => {
       if (floor && index > 0) { 
-        // Eredeti y: index * 3.2
-        // Új y: index * 4.8 (így tiszta távolság lesz köztük, nem akadnak össze)
         tl.to(floor.position, { 
           y: index * (floorHeight * 1.5), 
-          duration: 1.5, 
+          duration: 1, 
           ease: "power2.inOut" 
-        }, 0.2);
+        }, 2); // KIZÁRÓLAG a 2. másodpercnél kezd el szétnyílni!
       }
     });
 
-    // 3. 3D -> 2D Tervrajz (A szintek és a mag kilapulnak a talajra)
-    floorRefs.current.forEach((floor, index) => {
-      if (floor) {
-        tl.to(floor.scale, { y: 0.001, duration: 1.5 }, 1.5);
-        // A lelapuláskor visszamennek a földre, hogy szép alaprajz legyen
-        tl.to(floor.position, { y: 0.1 * index, duration: 1.5, ease: "power2.inOut" }, 1.5);
-      }
-    });
-    tl.to(group.current.getObjectByName("central-core")!.scale, { y: 0.001, duration: 1.5 }, 1.5);
-
-    // 4. Visszaállás
-    floorRefs.current.forEach((floor, index) => {
-      if (floor) {
-        tl.to(floor.scale, { y: 1, duration: 1.5 }, 3);
-        tl.to(floor.position, { y: index * (floorHeight * 1.5), duration: 1.5, ease: "power2.inOut" }, 3);
-      }
-    });
-    tl.to(group.current.getObjectByName("central-core")!.scale, { y: 1, duration: 1.5 }, 3);
+    // (Eltávolítottam a 3D -> 2D -> 3D kilapulást, mert ez okozta az "össze-vissza csúszkálást" fel-le görgetéskor)
 
   }, []);
 
