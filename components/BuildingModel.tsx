@@ -32,26 +32,23 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
       }
     });
 
-    // 1. (0.0 - 1.0 mp): A külső üvegburok egyszerűen elhalványul (Kamera eközben ráközelít)
+    // 1. (0.0 - 1.5 mp): A külső üvegburok egyszerűen elhalványul
     facade.current.traverse((child: THREE.Object3D) => {
       if ((child as THREE.Mesh).isMesh && (child as THREE.Mesh).material) {
-        tl.to((child as THREE.Mesh).material, { opacity: 0, duration: 1 }, 0);
+        tl.to((child as THREE.Mesh).material, { opacity: 0, duration: 1.5 }, 0);
       } else if ((child as THREE.LineSegments).isLineSegments && (child as THREE.LineSegments).material) {
-        tl.to((child as THREE.LineSegments).material, { opacity: 0, duration: 1 }, 0);
+        tl.to((child as THREE.LineSegments).material, { opacity: 0, duration: 1.5 }, 0);
       }
     });
 
-    // A 1.0 - 2.0 mp közötti időszakban az épület TÖKÉLETESEN EGYBEN MARAD, nem mozdulnak a szintek.
-    // (A kamera ekkor távolodik és elkezd keringeni körülötte).
-
-    // 2. (2.0 - 3.0 mp): A legvégén a szintek finoman szétnyílnak a mag mentén, hogy belássunk a szobákba.
+    // 2. (1.5 - 3.0 mp): A szintek finoman szétnyílnak a mag mentén, hogy belássunk a szobákba.
     floorRefs.current.forEach((floor, index) => {
       if (floor && index > 0) { 
         tl.to(floor.position, { 
           y: index * (floorHeight * 1.5), 
-          duration: 1, 
+          duration: 1.5, 
           ease: "power2.inOut" 
-        }, 2); // KIZÁRÓLAG a 2. másodpercnél kezd el szétnyílni!
+        }, 1.5); // KIZÁRÓLAG az animáció második felében (1.5 mp-nél) kezd el szétnyílni!
       }
     });
 

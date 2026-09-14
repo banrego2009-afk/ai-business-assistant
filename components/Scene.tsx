@@ -17,8 +17,8 @@ function CameraController() {
   useGSAP(() => {
     if (!cameraRef.current) return;
     
-    // Kezdeti kamera pozíció (Távolabbról, hogy a teljes épület látszódjon)
-    cameraRef.current.position.set(0, 2, 28);
+    // Kezdeti kamera pozíció (Távol, stabilan)
+    cameraRef.current.position.set(0, 5, 30);
     cameraRef.current.lookAt(0, 4, 0);
 
     const tl = gsap.timeline({
@@ -30,17 +30,13 @@ function CameraController() {
       }
     });
 
-    // Szekció 1: Nagyon-nagyon pici közelítés (Épp csak egy lüktetés)
-    tl.to(cameraRef.current.position, { x: 0, y: 4, z: 25, ease: "power1.inOut", duration: 1 }, 0)
-      .to(cameraRef.current.rotation, { x: -0.1, y: 0, z: 0, ease: "power1.inOut", duration: 1 }, 0);
+    // Szekció 1: Kamera távolodik és gyönyörűen elkezd keringeni (Az épület még egyben van)
+    tl.to(cameraRef.current.position, { x: 25, y: 18, z: 20, ease: "power2.inOut", duration: 1.5 }, 0)
+      .to(cameraRef.current.rotation, { x: -0.5, y: 0.8, z: 0.2, ease: "power2.inOut", duration: 1.5 }, 0);
 
-    // Szekció 2: Kamera távolodik és elkezd keringeni (Zoom OUT and Spin), az épület egyben marad
-    tl.to(cameraRef.current.position, { x: 22, y: 18, z: 18, ease: "power2.inOut", duration: 1 }, 1)
-      .to(cameraRef.current.rotation, { x: -0.5, y: 0.8, z: 0.2, ease: "power2.inOut", duration: 1 }, 1);
-
-    // Szekció 3: Végső robbantott izometrikus nézet (Amikor az épület szétnyílik)
-    tl.to(cameraRef.current.position, { x: -22, y: 15, z: 15, ease: "power2.inOut", duration: 1 }, 2)
-      .to(cameraRef.current.rotation, { x: -0.6, y: -0.7, z: -0.4, ease: "power2.inOut", duration: 1 }, 2);
+    // Szekció 2: Végső robbantott izometrikus nézet (A szintek ekkor nyílnak szét)
+    tl.to(cameraRef.current.position, { x: -25, y: 18, z: 18, ease: "power2.inOut", duration: 1.5 }, 1.5)
+      .to(cameraRef.current.rotation, { x: -0.6, y: -0.8, z: -0.4, ease: "power2.inOut", duration: 1.5 }, 1.5);
 
   });
 
