@@ -505,6 +505,10 @@ async function saveSettings() {
     }
 }
 
+function showMobileInfo() {
+    alert("Mobil Szinkronizáció Előkészítve!\n\nA jövőbeli frissítés során az alkalmazás ezen a helyi IP címen (pl. 192.168.1.X:8000) lesz elérhető a telefonodról. Egyelőre a hálózati megosztás (Port Forward) és a QR kódos párosítás fejlesztés alatt áll!");
+}
+
 // --- Web Speech API ---
 function setupSpeechRecognition() {
     const micBtn = document.getElementById("mic-btn");
