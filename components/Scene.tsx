@@ -30,9 +30,9 @@ function CameraController() {
       }
     });
 
-    // Szekció 1: Enyhe közelítés (Zoom IN), miközben a külső burok eltűnik
-    tl.to(cameraRef.current.position, { x: 0, y: 8, z: 18, ease: "power2.inOut", duration: 1 }, 0)
-      .to(cameraRef.current.rotation, { x: -0.2, y: 0, z: 0, ease: "power2.inOut", duration: 1 }, 0);
+    // Szekció 1: Nagyon-nagyon pici közelítés (Épp csak egy lüktetés)
+    tl.to(cameraRef.current.position, { x: 0, y: 4, z: 25, ease: "power1.inOut", duration: 1 }, 0)
+      .to(cameraRef.current.rotation, { x: -0.1, y: 0, z: 0, ease: "power1.inOut", duration: 1 }, 0);
 
     // Szekció 2: Kamera távolodik és elkezd keringeni (Zoom OUT and Spin), az épület egyben marad
     tl.to(cameraRef.current.position, { x: 22, y: 18, z: 18, ease: "power2.inOut", duration: 1 }, 1)

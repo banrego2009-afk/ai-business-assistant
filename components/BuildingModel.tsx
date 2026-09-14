@@ -233,7 +233,7 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
         {Array.from({ length: floorsCount + 1 }).map((_, i) => (
           <mesh key={`facade-band-${i}`} position={[0, i * floorHeight, 0]}>
             <boxGeometry args={[buildingWidth + 0.3, 0.2, buildingDepth + 0.3]} />
-            <meshStandardMaterial color="#475569" roughness={0.9} />
+            <meshStandardMaterial color="#475569" roughness={0.9} transparent opacity={1} />
           </mesh>
         ))}
       </group>
