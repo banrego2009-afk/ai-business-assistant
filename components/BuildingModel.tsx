@@ -57,16 +57,7 @@ export default function BuildingModel({ activeSystem }: { activeSystem: string |
     });
     tl.to(group.current.getObjectByName("central-core")!.scale, { y: 0.001, duration: 1.5 }, 1);
 
-    // 3. (2.5s - 4s): Végső 3D Robbantott Ábra (A szintek újra felveszik 3D formájukat, és szétnyílnak)
-    floorRefs.current.forEach((floor, index) => {
-      if (floor) {
-        tl.to(floor.scale, { y: 1, duration: 1.5 }, 2.5);
-        if (index > 0) {
-          tl.to(floor.position, { y: index * (floorHeight * 1.5), duration: 1.5, ease: "power2.inOut" }, 2.5);
-        }
-      }
-    });
-    tl.to(group.current.getObjectByName("central-core")!.scale, { y: 1, duration: 1.5 }, 2.5);
+
 
   }, []);
 
