@@ -17,6 +17,7 @@
     color: var(--color-offwhite);
     font-family: var(--font-sans);
     overflow-x: hidden;
+    touch-action: pan-y;
   }
 }
 

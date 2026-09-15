@@ -129,15 +129,15 @@ export default function Home() {
         </div>
 
         {/* 4. Interaktív Rendszerbemutató */}
-        <section className="min-h-screen flex flex-col justify-center px-6 md:px-20 bg-[var(--color-graphite)] md:bg-transparent md:bg-gradient-to-b md:from-transparent md:via-[var(--color-graphite)] md:to-[var(--color-graphite)] pointer-events-auto py-20 md:py-32 relative z-20">
-          <div className="max-w-lg mb-12 md:mb-16">
-            <h2 className="reveal-heading text-4xl md:text-5xl font-bold mb-6">Umfassende Elektroplanung</h2>
-            <p className="reveal-text text-xl text-[var(--color-steel)] md:block hidden">Berühren Sie ein System, um die Planungsdetails in 3D zu erkunden.</p>
-            <p className="reveal-text text-xl text-[var(--color-steel)] block md:hidden">Professionelle Projektierung und Dimensionierung von der ersten Berechnung bis zur CAD-Zeichnung.</p>
+        <section className="min-h-screen flex flex-col justify-center px-6 md:px-20 bg-[#0B0E10] lg:bg-transparent lg:bg-gradient-to-b lg:from-transparent lg:via-[#0B0E10] lg:to-[#0B0E10] pointer-events-auto py-20 md:py-32 relative z-20">
+          <div className="max-w-lg mb-12 lg:mb-16">
+            <h2 className="reveal-heading text-4xl lg:text-5xl font-bold mb-6">Umfassende Elektroplanung</h2>
+            <p className="reveal-text text-xl text-[var(--color-steel)] lg:block hidden">Berühren Sie ein System, um die Planungsdetails in 3D zu erkunden.</p>
+            <p className="reveal-text text-xl text-[var(--color-steel)] block lg:hidden">Professionelle Projektierung und Dimensionierung von der ersten Berechnung bis zur CAD-Zeichnung.</p>
           </div>
           
           {/* ASZTALI NÉZET: Kettészedett, interaktív (Hover) */}
-          <div className="hidden md:grid grid-cols-2 gap-12">
+          <div className="hidden lg:grid grid-cols-2 gap-12">
             <div className="flex flex-col gap-4">
               {[
                 "Energieverteilung",
@@ -187,7 +187,7 @@ export default function Home() {
           </div>
 
           {/* MOBIL NÉZET: Kompakt kártyás lista (Nincs hover, minden látszik) */}
-          <div className="flex md:hidden flex-col gap-6">
+          <div className="flex lg:hidden flex-col gap-6">
             {[
               "Energieverteilung",
               "Beleuchtung",
@@ -212,7 +212,7 @@ export default function Home() {
         </section>
 
         {/* 5. Személyes Szakmai Profil */}
-        <section className="min-h-screen flex items-center justify-center px-6 md:px-20 bg-[var(--color-graphite)] text-white relative z-10 pointer-events-auto border-t border-[var(--color-surface)] py-20 md:py-32">
+        <section className="min-h-screen flex items-center justify-center px-6 md:px-20 bg-[#0B0E10] text-white relative z-10 pointer-events-auto border-t border-[var(--color-surface)] py-20 md:py-32">
           <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="order-2 lg:order-1 flex justify-center w-full">
               <div className="w-full max-w-sm md:max-w-md aspect-[3/4] bg-[#111518] border border-[var(--color-steel)]/20 rounded-3xl relative overflow-hidden group shadow-[0_0_50px_rgba(0,0,0,0.5)]">
@@ -284,13 +284,13 @@ export default function Home() {
               <p className="text-gray-500 mb-10 text-lg">Sie suchen einen erfahrenen Elektroplaner? Beschreiben Sie kurz die Aufgabe.</p>
               
               <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <input type="text" placeholder="Name" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-lime)] focus:border-transparent transition-all" />
                   <input type="text" placeholder="Unternehmen" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-lime)] focus:border-transparent transition-all" />
                 </div>
                 <input type="email" placeholder="Geschäftliche E-Mail" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-lime)] focus:border-transparent transition-all" />
                 <textarea placeholder="Projektbeschreibung..." rows={5} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-lime)] focus:border-transparent transition-all"></textarea>
-                <button className="w-full bg-[var(--color-graphite)] text-white font-bold py-5 rounded-xl text-lg hover:bg-[var(--color-lime)] hover:text-[var(--color-graphite)] transition-colors shadow-lg">
+                <button className="w-full bg-[#0B0E10] text-white font-bold py-5 rounded-xl text-lg hover:bg-[var(--color-lime)] hover:text-[var(--color-graphite)] transition-colors shadow-lg">
                   Anfrage senden
                 </button>
               </form>

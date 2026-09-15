@@ -17,31 +17,59 @@ function CameraController() {
   useGSAP(() => {
     if (!cameraRef.current) return;
     
-    // Kezdeti kamera pozíció (Távol, stabilan)
-    cameraRef.current.position.set(0, 2, 28);
-    cameraRef.current.lookAt(0, 4, 0);
+    let mm = gsap.matchMedia();
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: "#animation-track",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 0.5, // 1.5 helyett 0.5, így sokkal hamarabb reagál a görgetésre!
-      }
+    // ASZTALI NÉZET (Desktop)
+    mm.add("(min-width: 1025px)", () => {
+      cameraRef.current!.position.set(0, 2, 28);
+      cameraRef.current!.rotation.set(0, 0, 0);
+      cameraRef.current!.lookAt(0, 4, 0);
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#animation-track",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.5,
+        }
+      });
+
+      tl.to(cameraRef.current!.position, { x: 18, y: 20, z: 18, ease: "power2.inOut", duration: 1 }, 0)
+        .to(cameraRef.current!.rotation, { x: -0.5, y: 0.8, z: 0.2, ease: "power2.inOut", duration: 1 }, 0);
+
+      tl.to(cameraRef.current!.position, { x: 0, y: 40, z: 0, ease: "power3.inOut", duration: 1.5 }, 1)
+        .to(cameraRef.current!.rotation, { x: -Math.PI / 2, y: 0, z: 0, ease: "power3.inOut", duration: 1.5 }, 1);
+        
+      tl.to(cameraRef.current!.position, { x: -14, y: 12, z: 14, ease: "power2.inOut", duration: 1.5 }, 2.5)
+        .to(cameraRef.current!.rotation, { x: -0.54, y: -0.78, z: -0.2, ease: "power2.inOut", duration: 1.5 }, 2.5);
     });
 
-    // Szekció 1: Épületmetszet feltárása (Kamera berepül, megfordul az épület körül)
-    tl.to(cameraRef.current.position, { x: 18, y: 20, z: 18, ease: "power2.inOut", duration: 1 }, 0)
-      .to(cameraRef.current.rotation, { x: -0.5, y: 0.8, z: 0.2, ease: "power2.inOut", duration: 1 }, 0);
+    // MOBIL & TABLET NÉZET (Sokkal távolabbról, hogy ne legyen túl nagy az épület)
+    mm.add("(max-width: 1024px)", () => {
+      cameraRef.current!.position.set(0, 2, 50); // Még távolabb
+      cameraRef.current!.rotation.set(0, 0, 0);
+      cameraRef.current!.lookAt(0, 6, 0);
 
-    // Szekció 2: 3D -> 2D Tervrajz (Kamera teljesen felülnézetbe fordul)
-    tl.to(cameraRef.current.position, { x: 0, y: 40, z: 0, ease: "power3.inOut", duration: 1.5 }, 1)
-      .to(cameraRef.current.rotation, { x: -Math.PI / 2, y: 0, z: 0, ease: "power3.inOut", duration: 1.5 }, 1);
-      
-    // Szekció 3: Robbantott nézet, közelebbről, fókuszálva (Nagyobb beleközelítés!)
-    tl.to(cameraRef.current.position, { x: -14, y: 12, z: 14, ease: "power2.inOut", duration: 1.5 }, 2.5)
-      .to(cameraRef.current.rotation, { x: -0.54, y: -0.78, z: -0.2, ease: "power2.inOut", duration: 1.5 }, 2.5);
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#animation-track",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.5,
+        }
+      });
 
+      tl.to(cameraRef.current!.position, { x: 35, y: 30, z: 35, ease: "power2.inOut", duration: 1 }, 0)
+        .to(cameraRef.current!.rotation, { x: -0.6, y: 0.6, z: 0.3, ease: "power2.inOut", duration: 1 }, 0);
+
+      tl.to(cameraRef.current!.position, { x: 0, y: 70, z: 0, ease: "power3.inOut", duration: 1.5 }, 1)
+        .to(cameraRef.current!.rotation, { x: -Math.PI / 2, y: 0, z: 0, ease: "power3.inOut", duration: 1.5 }, 1);
+        
+      tl.to(cameraRef.current!.position, { x: -30, y: 25, z: 30, ease: "power2.inOut", duration: 1.5 }, 2.5)
+        .to(cameraRef.current!.rotation, { x: -0.6, y: -0.6, z: -0.2, ease: "power2.inOut", duration: 1.5 }, 2.5);
+    });
+
+    return () => mm.revert();
   });
 
   return <PerspectiveCamera ref={cameraRef} makeDefault fov={35} />;
