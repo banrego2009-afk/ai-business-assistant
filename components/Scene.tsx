@@ -43,7 +43,8 @@ function CameraController() {
 
     // MOBIL & TABLET NÉZET
     mm.add("(max-width: 1024px)", () => {
-      cameraRef.current!.position.set(0, 10, 110);
+      // Kezdetben egy picit közelebb (z: 70), hogy a Hero részben nagyobb és látványosabb legyen
+      cameraRef.current!.position.set(0, 8, 70);
       cameraRef.current!.rotation.set(0, 0, 0);
       cameraRef.current!.lookAt(0, 2, 0);
 
@@ -56,9 +57,11 @@ function CameraController() {
         }
       });
 
-      tl.to(cameraRef.current!.position, { x: 15, y: 30, z: 100, ease: "power2.inOut", duration: 1 }, 0)
+      // 1. szakasz: KIKÖZELÍTÉS (Zoom out z: 110-re), ahogy elindul lefelé
+      tl.to(cameraRef.current!.position, { x: 15, y: 30, z: 110, ease: "power2.inOut", duration: 1 }, 0)
         .to(cameraRef.current!.rotation, { x: -0.3, y: 0.2, z: 0.1, ease: "power2.inOut", duration: 1 }, 0);
 
+      // 2. szakasz: Felülnézet (Nagyon magasan marad, kicsi képeslap méret)
       tl.to(cameraRef.current!.position, { x: 0, y: 130, z: 0, ease: "power3.inOut", duration: 1.5 }, 1)
         .to(cameraRef.current!.rotation, { x: -Math.PI / 2, y: 0, z: 0, ease: "power3.inOut", duration: 1.5 }, 1);
     });
