@@ -83,7 +83,7 @@ export default function Home() {
           {/* 1. KREATÍV KÖZPONTI HERO (Beleolvad a 3D-be) */}
           <section className="h-[100vh] md:h-[120vh] flex flex-col items-center justify-center px-6 pointer-events-none">
             <div ref={heroTextRef} className="flex flex-col items-center text-center z-20 w-full max-w-5xl">
-              <div className="inline-block border border-[var(--color-lime)] text-[var(--color-lime)] px-4 py-1.5 rounded-full text-xs font-mono mb-8 uppercase tracking-widest animate-in fade-in slide-in-from-bottom-4 duration-1000 shadow-[0_4px_16px_rgba(0,0,0,0.8)] bg-black/20">
+              <div className="inline-block border border-[var(--color-lime)] text-[var(--color-lime)] px-4 py-1.5 rounded-full text-xs font-mono mb-8 uppercase tracking-widest animate-in fade-in slide-in-from-bottom-4 duration-1000 shadow-[0_4px_16px_rgba(0,0,0,0.8)]">
                 Externe Elektroplanung
               </div>
               
@@ -195,13 +195,12 @@ export default function Home() {
               "Sicherheits- und Beschallungssysteme",
               "Steuerung und Gebäudeautomation"
             ].map((sys) => (
-              <div key={sys} className="bg-[#111518] border border-white/10 rounded-2xl p-6 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-lime)]/5 blur-[50px] pointer-events-none rounded-full"></div>
+              <div key={sys} className="py-4 border-b border-[var(--color-surface)] last:border-0">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="text-[var(--color-lime)]"><Hexagon className="w-6 h-6" /></div>
-                  <h3 className="font-bold text-xl">{sys}</h3>
+                  <h3 className="font-bold text-xl text-white">{sys}</h3>
                 </div>
-                <ul className="space-y-3 mt-4">
+                <ul className="space-y-3 mt-4 ml-2">
                   <li className="flex gap-3 text-sm text-[var(--color-steel)] items-center"><CheckCircle2 className="w-4 h-4 text-[var(--color-lime)] shrink-0" /> <span>Konzept & Dimensionierung</span></li>
                   <li className="flex gap-3 text-sm text-[var(--color-steel)] items-center"><CheckCircle2 className="w-4 h-4 text-[var(--color-lime)] shrink-0" /> <span>Leitungsführung & Trassierung</span></li>
                   <li className="flex gap-3 text-sm text-[var(--color-steel)] items-center"><CheckCircle2 className="w-4 h-4 text-[var(--color-lime)] shrink-0" /> <span>Detaillierte CAD-Ausarbeitung</span></li>
@@ -212,9 +211,9 @@ export default function Home() {
         </section>
 
         {/* 5. Személyes Szakmai Profil */}
-        <section className="min-h-screen flex items-center justify-center px-6 md:px-20 bg-[#0B0E10] text-white relative z-10 pointer-events-auto border-t border-[var(--color-surface)] py-20 md:py-32">
+        <section className="min-h-screen flex items-center justify-center px-6 md:px-20 bg-[#0B0E10] text-white relative z-10 pointer-events-auto py-20 md:py-32">
           <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <div className="order-2 lg:order-1 flex justify-center w-full">
+            <div className="order-2 lg:order-1 hidden lg:flex justify-center w-full">
               <div className="w-full max-w-sm md:max-w-md aspect-[3/4] bg-[#111518] border border-[var(--color-steel)]/20 rounded-3xl relative overflow-hidden group shadow-[0_0_50px_rgba(0,0,0,0.5)]">
                 <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-graphite)] via-transparent to-transparent z-10"></div>
                 <div className="absolute inset-0 flex items-center justify-center text-[var(--color-steel)] font-mono text-sm opacity-50 z-20 group-hover:opacity-100 transition-opacity">
@@ -242,13 +241,13 @@ export default function Home() {
               </div>
               
               <div className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 reveal-text">
-                <div className="bg-[#111518] p-5 md:p-6 rounded-2xl border border-white/5 shadow-lg">
+                <div className="p-2 md:p-4">
                   <div className="font-mono text-[var(--color-lime)] text-xs mb-2 uppercase tracking-wider">Software</div>
-                  <div className="font-bold text-base md:text-lg">AutoCAD, 3D-Planung</div>
+                  <div className="font-bold text-base md:text-lg text-white">AutoCAD, 3D-Planung</div>
                 </div>
-                <div className="bg-[#111518] p-5 md:p-6 rounded-2xl border border-white/5 shadow-lg">
+                <div className="p-2 md:p-4">
                   <div className="font-mono text-[var(--color-lime)] text-xs mb-2 uppercase tracking-wider">Einsatzort</div>
-                  <div className="font-bold text-base md:text-lg">Remote / Hybrid</div>
+                  <div className="font-bold text-base md:text-lg text-white">Remote / Hybrid</div>
                 </div>
               </div>
             </div>
