@@ -81,7 +81,7 @@ export default function Home() {
         {/* 3D Animáció hossza (Csak ezen a szakaszon animál a GSAP) */}
         <div id="animation-track">
           {/* 1. KREATÍV KÖZPONTI HERO (Beleolvad a 3D-be) */}
-          <section className="h-[100vh] md:h-[120vh] flex flex-col items-center justify-center px-6 pointer-events-none">
+          <section className="h-[100dvh] md:h-[120vh] flex flex-col items-center justify-center px-6 pointer-events-none">
             <div ref={heroTextRef} className="flex flex-col items-center text-center z-20 w-full max-w-5xl">
               <div className="inline-block border border-[var(--color-lime)] text-[var(--color-lime)] px-4 py-1.5 rounded-full text-xs font-mono mb-8 uppercase tracking-widest animate-in fade-in slide-in-from-bottom-4 duration-1000 shadow-[0_4px_16px_rgba(0,0,0,0.8)]">
                 Externe Elektroplanung
@@ -104,7 +104,7 @@ export default function Home() {
           </section>
 
           {/* 2. Épületmetszet Feltárása */}
-          <section className="min-h-[120vh] md:min-h-[150vh] flex items-center px-6 md:px-20 pointer-events-none">
+          <section className="min-h-[120dvh] md:min-h-[150dvh] flex items-center px-6 md:px-20 pointer-events-none">
             <div className="max-w-2xl">
               <h2 className="reveal-heading text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-[0_8px_16px_rgba(0,0,0,0.9)]">
                 Präzision im Detail.
@@ -116,7 +116,7 @@ export default function Home() {
           </section>
 
           {/* 3. 3D -> 2D Tervrajz */}
-          <section className="min-h-[120vh] md:min-h-[150vh] flex items-center px-6 md:px-20 pointer-events-none justify-end">
+          <section className="min-h-[120dvh] md:min-h-[150dvh] flex items-center px-6 md:px-20 pointer-events-none justify-end">
             <div className="max-w-2xl text-right">
               <h2 className="reveal-heading text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-[0_8px_16px_rgba(0,0,0,0.9)]">
                 Räumlich gedacht.<br/>Flach gezeichnet.
@@ -129,7 +129,7 @@ export default function Home() {
         </div>
 
         {/* 4. Interaktív Rendszerbemutató */}
-        <section className="min-h-screen flex flex-col justify-center px-6 md:px-20 bg-[#0B0E10] lg:bg-transparent lg:bg-gradient-to-b lg:from-transparent lg:via-[#0B0E10] lg:to-[#0B0E10] pointer-events-auto py-20 md:py-32 relative z-20">
+        <section className="min-h-[100dvh] flex flex-col justify-center px-6 md:px-20 bg-[#0B0E10] lg:bg-transparent lg:bg-gradient-to-b lg:from-transparent lg:via-[#0B0E10] lg:to-[#0B0E10] pointer-events-auto py-20 md:py-32 relative z-20">
           <div className="max-w-lg mb-12 lg:mb-16">
             <h2 className="reveal-heading text-4xl lg:text-5xl font-bold mb-6">Umfassende Elektroplanung</h2>
             <p className="reveal-text text-xl text-[var(--color-steel)] lg:block hidden">Berühren Sie ein System, um die Planungsdetails in 3D zu erkunden.</p>
@@ -211,7 +211,7 @@ export default function Home() {
         </section>
 
         {/* 5. Személyes Szakmai Profil */}
-        <section className="min-h-screen flex items-center justify-center px-6 md:px-20 bg-[#0B0E10] text-white relative z-10 pointer-events-auto py-20 md:py-32">
+        <section className="min-h-[100dvh] flex items-center justify-center px-6 md:px-20 bg-[#0B0E10] text-white relative z-10 pointer-events-auto py-20 md:py-32">
           <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="order-2 lg:order-1 hidden lg:flex justify-center w-full">
               <div className="w-full max-w-sm md:max-w-md aspect-[3/4] bg-[#111518] border border-[var(--color-steel)]/20 rounded-3xl relative overflow-hidden group shadow-[0_0_50px_rgba(0,0,0,0.5)]">
@@ -255,7 +255,7 @@ export default function Home() {
         </section>
 
         {/* 6. Együttműködés & Kapcsolat */}
-        <section className="min-h-screen flex flex-col justify-center px-6 md:px-20 bg-[var(--color-offwhite)] text-[var(--color-graphite)] pointer-events-auto relative z-10 py-20 md:py-32">
+        <section className="min-h-[100dvh] flex flex-col justify-center px-6 md:px-20 bg-[var(--color-offwhite)] text-[var(--color-graphite)] pointer-events-auto relative z-10 py-20 md:py-32">
           <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
             <div className="flex flex-col justify-center">
               <h2 className="reveal-heading text-4xl md:text-6xl font-bold mb-6 md:mb-8 leading-tight">Ein erfahrener Elektroplaner für Ihr Projektteam.</h2>

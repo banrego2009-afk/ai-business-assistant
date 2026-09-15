@@ -51,7 +51,7 @@ function CameraController() {
     // MOBIL & TABLET NÉZET (Képeslap méret, még távolabb, középen maradva)
     mm.add("(max-width: 1024px)", () => {
       // Nagyon távolról kezdünk, hogy kicsi legyen, mint egy képeslapon
-      cameraRef.current!.position.set(0, 8, 65);
+      cameraRef.current!.position.set(0, 10, 110);
       cameraRef.current!.rotation.set(0, 0, 0);
       cameraRef.current!.lookAt(0, 2, 0);
 
@@ -65,15 +65,15 @@ function CameraController() {
       });
 
       // 1. szakasz: Finom elfordulás, a kamera Z távolsága stabil marad
-      tl.to(cameraRef.current!.position, { x: 10, y: 20, z: 60, ease: "power2.inOut", duration: 1 }, 0)
+      tl.to(cameraRef.current!.position, { x: 15, y: 30, z: 100, ease: "power2.inOut", duration: 1 }, 0)
         .to(cameraRef.current!.rotation, { x: -0.3, y: 0.2, z: 0.1, ease: "power2.inOut", duration: 1 }, 0);
 
       // 2. szakasz: Felülnézet (Nagyon magasan, hogy kicsi maradjon)
-      tl.to(cameraRef.current!.position, { x: 0, y: 80, z: 0, ease: "power3.inOut", duration: 1.5 }, 1)
+      tl.to(cameraRef.current!.position, { x: 0, y: 130, z: 0, ease: "power3.inOut", duration: 1.5 }, 1)
         .to(cameraRef.current!.rotation, { x: -Math.PI / 2, y: 0, z: 0, ease: "power3.inOut", duration: 1.5 }, 1);
         
       // 3. szakasz: Robbantott nézet
-      tl.to(cameraRef.current!.position, { x: -10, y: 25, z: 55, ease: "power2.inOut", duration: 1.5 }, 2.5)
+      tl.to(cameraRef.current!.position, { x: -15, y: 35, z: 90, ease: "power2.inOut", duration: 1.5 }, 2.5)
         .to(cameraRef.current!.rotation, { x: -0.3, y: -0.2, z: -0.1, ease: "power2.inOut", duration: 1.5 }, 2.5);
     });
 
