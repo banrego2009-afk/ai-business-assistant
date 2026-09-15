@@ -4,17 +4,17 @@ import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
 });
 
 export const metadata: Metadata = {
-  title: "VoltLinea | Externe Elektroplanung",
-  description: "Eigenständige Projektierung für Unternehmen in der Schweiz und Österreich.",
+  title: "Voltlinea · Gábor Freimann | Externe Elektroplanung",
+  description: "Externe Elektroplanung für Planungsbüros und Projektteams in der Schweiz und Österreich.",
 };
 
 export const viewport = {
@@ -27,7 +27,7 @@ export const viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      lang="de-CH"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
